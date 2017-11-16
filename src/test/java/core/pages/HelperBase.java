@@ -1,28 +1,28 @@
-package core;
+package core.pages;
 
 import org.openqa.selenium.*;
 
-public abstract class HelperBase {
-    protected WebDriver driver;
+abstract class HelperBase {
+    WebDriver driver;
     private boolean acceptNextAlert = true;
 
-    public HelperBase(WebDriver driver) {
+    HelperBase(WebDriver driver) {
         this.driver = driver;
         check();
     }
 
-    protected abstract void check();
+    abstract void check();
 
-    protected void type(String text, By locator) {
+    void type(String text, By locator) {
         driver.findElement(locator).clear();
         driver.findElement(locator).sendKeys(text);
     }
 
-    protected void click(By locator) {
+    void click(By locator) {
         driver.findElement(locator).click();
     }
 
-    protected boolean isElementPresent(By by) {
+    boolean isElementPresent(By by) {
         try {
             driver.findElement(by);
             return true;
@@ -31,7 +31,7 @@ public abstract class HelperBase {
         }
     }
 
-    protected boolean isAlertPresent() {
+    private boolean isAlertPresent() {
         try {
             driver.switchTo().alert();
             return true;
@@ -40,7 +40,7 @@ public abstract class HelperBase {
         }
     }
 
-    protected String closeAlertAndGetItsText() {
+    private String closeAlertAndGetItsText() {
         try {
             Alert alert = driver.switchTo().alert();
             String alertText = alert.getText();
@@ -53,5 +53,15 @@ public abstract class HelperBase {
         } finally {
             acceptNextAlert = true;
         }
+    }
+
+    void scrollWithOffset(By locator, int x, int y) {
+        WebElement element = driver.findElement(locator);
+
+        String code = "window.scroll(" + (element.getLocation().x + x) + ","
+                + (element.getLocation().y + y) + ");";
+
+        ((JavascriptExecutor) driver).executeScript(code, element, x, y);
+
     }
 }
