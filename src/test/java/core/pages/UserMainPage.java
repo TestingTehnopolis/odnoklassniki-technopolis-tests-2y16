@@ -16,6 +16,9 @@ public class UserMainPage extends HelperBase {
     private static final By LUPA = By.xpath(".//*[@class='toolbar_search_lupa']");
     private static final By SECONDARY_DROPDOWN_BTN = By.xpath(".//*[contains(@class, 'secondary-dropdown')]");
     private static final By REVOKE_FRIEND_REQUEST_BTN = By.xpath(".//*[contains(@href, 'st._aid=FriendTopCard_JoinDropdown_REVOKE')]");
+    private static final By WRITE_MESSAGE_BTN = By.xpath(".//*[@id='action_menu_write_message_button_a']");
+    private static final By SETTINGS_BTN = By.xpath(".//*[@data-l='t,USER_EDIT_CONFIG']");
+
 
     UserMainPage(WebDriver driver) {
         super(driver);
@@ -53,5 +56,15 @@ public class UserMainPage extends HelperBase {
     public PhotoMainPage clickOnAvatar() {
         click(USER_AVATAR);
         return new PhotoMainPage(driver);
+    }
+
+    public MessageMainPage clickWriteMessage(){
+        click(WRITE_MESSAGE_BTN);
+        return new MessageMainPage(driver);
+    }
+
+    public SettingsMainPage clickOnMySettings(){
+        click(SETTINGS_BTN);
+        return new SettingsMainPage(driver);
     }
 }

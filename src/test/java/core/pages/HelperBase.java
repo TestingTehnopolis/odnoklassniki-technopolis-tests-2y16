@@ -31,6 +31,10 @@ abstract class HelperBase {
         }
     }
 
+    boolean isElementSelected(By by){
+        return driver.findElement(by).isSelected();
+    }
+
     private boolean isAlertPresent() {
         try {
             driver.switchTo().alert();
