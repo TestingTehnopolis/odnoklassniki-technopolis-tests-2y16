@@ -31,6 +31,11 @@ public abstract class HelperBase {
         }
     }
 
+    protected void clickOnElementInList(By xpath, int len) {
+        WebElement element = driver.findElements(xpath).get(len);
+        element.click();
+    }
+
     protected boolean isAlertPresent() {
         try {
             driver.switchTo().alert();
