@@ -31,7 +31,6 @@ public class TestBase {
         baseUrl = "https://ok.ru/";
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get(baseUrl + "/");
-
     }
 
     public void stop() {
