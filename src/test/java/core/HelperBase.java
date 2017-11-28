@@ -8,10 +8,7 @@ public abstract class HelperBase {
 
     public HelperBase(WebDriver driver) {
         this.driver = driver;
-        check();
     }
-
-    protected abstract void check();
 
     protected void type(String text, By locator) {
         driver.findElement(locator).clear();
@@ -22,7 +19,7 @@ public abstract class HelperBase {
         driver.findElement(locator).click();
     }
 
-    protected boolean isElementPresent(By by) {
+    private boolean isElementPresent(By by) {
         try {
             driver.findElement(by);
             return true;
@@ -31,7 +28,7 @@ public abstract class HelperBase {
         }
     }
 
-    protected boolean isAlertPresent() {
+    private boolean isAlertPresent() {
         try {
             driver.switchTo().alert();
             return true;
@@ -40,7 +37,7 @@ public abstract class HelperBase {
         }
     }
 
-    protected String closeAlertAndGetItsText() {
+    private String closeAlertAndGetItsText() {
         try {
             Alert alert = driver.switchTo().alert();
             String alertText = alert.getText();

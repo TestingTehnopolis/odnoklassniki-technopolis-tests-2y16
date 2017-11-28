@@ -1,4 +1,4 @@
-package core;
+package tests;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,6 +15,23 @@ public class TestBase {
     private StringBuffer verificationErrors = new StringBuffer();
     protected WebDriver driver;
 
+
+    public void init() {
+        driver = new ChromeDriver();
+        driver.manage().window().setSize(new Dimension(1600,1200));
+        baseUrl = "https://ok.ru/";
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.get(baseUrl + "");
+    }
+
+    public void stop() {
+        driver.quit();
+        String verificationErrorString = verificationErrors.toString();
+        if (!"".equals(verificationErrorString)) {
+            fail(verificationErrorString);
+        }
+    }
+
     @Before
     public void setUp() throws Exception {
         init();
@@ -25,20 +42,4 @@ public class TestBase {
         stop();
     }
 
-    public void init() {
-        driver = new ChromeDriver();
-        driver.manage().window().setSize(new Dimension(1600,1200));
-        baseUrl = "https://ok.ru/";
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(baseUrl + "/");
-
-    }
-
-    public void stop() {
-        driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
-    }
 }
