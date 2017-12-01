@@ -34,7 +34,7 @@ public class GroupMainPage extends HelperBase{
     }
 
     public void typeGroupName(String groupName) {
-        type(groupName, By.id("field_name"));
+        type(groupName, By.id("field_name"), true);
     }
 
     public void clickInterestGroup() {

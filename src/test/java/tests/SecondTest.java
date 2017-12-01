@@ -11,7 +11,7 @@ public class SecondTest extends TestBase {
 
     @Test
     public void testGroupCreation() throws Exception {
-        new LoginMainPage(driver).doLogin(new TestBot("technopolisbot", "technopolis16"));
+        new LoginMainPage(driver).doLogin(new TestBot("technopolisbot19", "technopolis16"));
         new UserMainPage(driver).clickGroupsOnToolbar();
         GroupMainPage groupMainPage = new GroupMainPage(driver);
         groupMainPage.clickCreateGroup();
