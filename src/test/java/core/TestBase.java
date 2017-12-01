@@ -1,23 +1,37 @@
 package core;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
+/**
+ * Класс отвечает за правильную инициализацию и корректное завершение работы
+ * драйвера для всех тетов.
+ */
 public class TestBase {
     private String baseUrl;
     private StringBuffer verificationErrors = new StringBuffer();
+
     protected WebDriver driver;
+    private OKMainPage oKMainPage;
 
     @Before
     public void setUp() throws Exception {
         init();
+        oKMainPage = new OKMainPage(driver);
+        //нужно перейти на русский язвк интерфейса.
+        oKMainPage.clickSelectLanguageBtn()
+            .checkLayerAppearance()
+            .selectLanguage();
     }
 
     @After
