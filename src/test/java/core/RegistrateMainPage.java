@@ -37,18 +37,6 @@ public class RegistrateMainPage extends PageBase {
         check();
     }
 
-
-    @Override
-    protected void check() {
-        Assert.assertTrue("Не дождались появления логотипа",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(PIC_LOGO), 10, 500));
-        Assert.assertTrue("Не дождались появления сообщения о согласии с регламентом",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_ACCEPT_REGLAMENT), 10, 500));
-        Assert.assertTrue("Не дождались появления лейбла номер телефона",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_PHONE_NUMBER), 10, 500));
-
-    }
-
     public RegistrateMainPage clickNext() {
         Assert.assertTrue("Не дождались появления кнопки далее",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_NEXT), 10, 500));
@@ -73,6 +61,16 @@ public class RegistrateMainPage extends PageBase {
         Assert.assertTrue("Не дождались появления предупреждения о некорректом номере телефона",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_NOT_FULL_PHONE_NUMBER), 10, 500));
         return this;
+    }
+
+    @Override
+    protected void check() {
+        Assert.assertTrue("Не дождались появления логотипа",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(PIC_LOGO), 10, 500));
+        Assert.assertTrue("Не дождались появления сообщения о согласии с регламентом",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_ACCEPT_REGLAMENT), 10, 500));
+        Assert.assertTrue("Не дождались появления лейбла номер телефона",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_PHONE_NUMBER), 10, 500));
     }
 }
 

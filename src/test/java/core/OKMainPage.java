@@ -46,17 +46,6 @@ public class OKMainPage extends PageBase {
         click(By.xpath(".//*[contains(@data-l,'loginButton')]"));
     }
 
-    @Override
-    protected void check() {
-        Assert.assertTrue("Не дождались появления логотипа",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(PIC_LOGO), 10, 500));
-        Assert.assertTrue("Не дождались появления лейбла приглашающего ввести логин/...",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_LOGIN), 10, 500));
-        Assert.assertTrue("Не дождались появления лейбла приглашающего ввести пароль",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_PSWD), 10, 500));
-
-    }
-
     public OKMainPage checkLayerAppearance() {
         Assert.assertTrue("Не дождались появления лейера со списком языков",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(LAYER_CHOOSE_LANGUAGE), 10, 500));
@@ -75,5 +64,16 @@ public class OKMainPage extends PageBase {
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(HREF_RUS_LANGUAGE), 10, 500));
         click(HREF_RUS_LANGUAGE);
         return this;
+    }
+
+    @Override
+    protected void check() {
+        Assert.assertTrue("Не дождались появления логотипа",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(PIC_LOGO), 10, 500));
+        Assert.assertTrue("Не дождались появления лейбла приглашающего ввести логин/...",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_LOGIN), 10, 500));
+        Assert.assertTrue("Не дождались появления лейбла приглашающего ввести пароль",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_PSWD), 10, 500));
+
     }
 }

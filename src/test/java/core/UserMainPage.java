@@ -25,14 +25,6 @@ public class UserMainPage extends PageBase {
         super(driver);
     }
 
-    @Override
-    protected void check() {
-        Assert.assertTrue("Не дождались появления блока с основными действиями пользователя",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(PERSONAL_BLOCK), 10, 500));
-        Assert.assertTrue("Не дождались появления лейбла 'О чем вы думаете?'",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_THOUGHTS), 10, 500));
-    }
-
     public UserMainPage goToDestinationUser(String id) {
         driver.get("https://ok.ru/profile/" + id + "/");
         return this;
@@ -70,6 +62,7 @@ public class UserMainPage extends PageBase {
         click(BTN_EXIT);
         return this;
     }
+
     public UserMainPage ckeckAppearanceLayerExit() {
         Assert.assertTrue("Не дождались появления лейера с подтверждением выхода",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(LAYER_EXIT), 10, 500));
@@ -81,5 +74,13 @@ public class UserMainPage extends PageBase {
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_CONFIRM_EXIT), 10, 500));
         click(BTN_CONFIRM_EXIT);
         return this;
+    }
+
+    @Override
+    protected void check() {
+        Assert.assertTrue("Не дождались появления блока с основными действиями пользователя",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(PERSONAL_BLOCK), 10, 500));
+        Assert.assertTrue("Не дождались появления лейбла 'О чем вы думаете?'",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_THOUGHTS), 10, 500));
     }
 }

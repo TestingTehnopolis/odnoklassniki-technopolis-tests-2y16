@@ -10,12 +10,36 @@ import java.util.concurrent.TimeUnit;
  * Класс предоставляет базовые методы для всех тесткейсов.
  */
 public abstract class PageBase {
+
     protected WebDriver driver;
     private boolean acceptNextAlert = true;
 
     public PageBase(WebDriver driver) {
         this.driver = driver;
         check();
+    }
+
+    public boolean explicitWait(final ExpectedCondition<?> condition, long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
+        Preconditions.checkNotNull(condition, "Condition must be not null");
+        Preconditions.checkArgument(TimeUnit.MINUTES.toSeconds(3) > maxCheckTimeInSeconds, "Max check time in seconds should be less than 3 minutes");
+        checkConditionTimeouts(maxCheckTimeInSeconds, millisecondsBetweenChecks);
+        try {
+            // сбрасываем ожидания в 0
+            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            // создаем эксплицитное ожидание
+            WebDriverWait explicitWait = new WebDriverWait(driver, maxCheckTimeInSeconds, millisecondsBetweenChecks);
+            // проверяем его
+            explicitWait.until(condition);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            // при любом результате восстанавливаем значение имплицитного ожидания по умолчанию
+            if (driver != null) {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            } else {
+                throw new IllegalArgumentException("Driver shouldnt be null");
+            }        }
     }
 
     protected abstract void check();
@@ -73,29 +97,6 @@ public abstract class PageBase {
         } finally {
             acceptNextAlert = true;
         }
-    }
-
-    public boolean explicitWait(final ExpectedCondition<?> condition, long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
-        Preconditions.checkNotNull(condition, "Condition must be not null");
-        Preconditions.checkArgument(TimeUnit.MINUTES.toSeconds(3) > maxCheckTimeInSeconds, "Max check time in seconds should be less than 3 minutes");
-        checkConditionTimeouts(maxCheckTimeInSeconds, millisecondsBetweenChecks);
-        try {
-            // сбрасываем ожидания в 0
-            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-            // создаем эксплицитное ожидание
-            WebDriverWait explicitWait = new WebDriverWait(driver, maxCheckTimeInSeconds, millisecondsBetweenChecks);
-            // проверяем его
-            explicitWait.until(condition);
-            return true;
-        } catch (Exception e) {
-            return false;
-        } finally {
-            // при любом результате восстанавливаем значение имплицитного ожидания по умолчанию
-            if (driver != null) {
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            } else {
-                throw new IllegalArgumentException("Driver shouldnt be null");
-            }        }
     }
 
     /**

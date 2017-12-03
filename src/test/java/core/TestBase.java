@@ -18,6 +18,7 @@ import static org.junit.Assert.fail;
  * драйвера для всех тетов.
  */
 public class TestBase {
+
     private String baseUrl;
     private StringBuffer verificationErrors = new StringBuffer();
 
