@@ -1,7 +1,6 @@
 package tests;
 
 import core.GroupMainPage;
-import core.LoginMainPage;
 import core.TestBase;
 import core.UserMainPage;
 import model.TestBot;
@@ -11,13 +10,13 @@ public class SecondTest extends TestBase {
 
     @Test
     public void testGroupCreation() throws Exception {
-        new LoginMainPage(driver).doLogin(new TestBot("technopolisbot19", "technopolis16"));
-        new UserMainPage(driver).clickGroupsOnToolbar();
-        GroupMainPage groupMainPage = new GroupMainPage(driver);
-        groupMainPage.clickCreateGroup();
-        groupMainPage.clickInterestGroup();
-        groupMainPage.typeGroupName("Group");
-        groupMainPage.clickCreateButton();
+//        new LoginMainPage(driver).doLogin(new TestBot("technopolisbot19", "technopolis16"));
+//        new UserMainPage(driver).clickGroupsOnToolbar();
+//        GroupMainPage groupMainPage = new GroupMainPage(driver);
+//        groupMainPage.clickCreateGroup();
+//        groupMainPage.clickInterestGroup();
+//        groupMainPage.typeGroupName("Group");
+//        groupMainPage.clickCreateButton();
         //todo не хватает проверки
     }
 }

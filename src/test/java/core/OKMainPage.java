@@ -1,12 +1,14 @@
 package core;
 
+import model.TestBot;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
- * Класс предоставляет методы для действий на главной странице - ok.ru/.
+ * Класс предоставляет методы для действий(переход на страницу регистрации, вход для зарегистрированного пользователя)
+ * на главной странице - ok.ru/.
  */
 public class OKMainPage extends PageBase {
 
@@ -36,6 +38,12 @@ public class OKMainPage extends PageBase {
         Assert.assertTrue("Не дождались появления кнопки регистрация",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_REGISTRATE), 10, 500));
         click(BTN_REGISTRATE);
+    }
+
+    public void doLogin(TestBot testBot) {
+        type(testBot.getLogin(), By.id("field_email"));
+        type(testBot.getPassword(), By.id("field_password"));
+        click(By.xpath(".//*[contains(@data-l,'loginButton')]"));
     }
 
     @Override

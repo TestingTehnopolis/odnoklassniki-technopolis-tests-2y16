@@ -27,8 +27,7 @@ public class RegistrateMainPage extends PageBase {
             ".//input[contains(@class, 'js-proceed-registration') and contains(@value, 'Далее')]");
     private static final By  LBL_WRONG_NUMBER = By.xpath(
             ".//span[contains(@class, 'input-e') and contains(text(), 'Неправильный номер телефона')]");
-    private static final By  AREA_INPUT_PHONE_NUMBER = By.xpath(
-            ".//input[contains(@id, 'field_phone') and @value='+7']");
+    private static final By  AREA_INPUT_PHONE_NUMBER = By.id("field_phone");
     private static final By  LBL_NOT_FULL_PHONE_NUMBER = By.xpath(
             ".//span[contains(@class, 'input-e') and text()='Осталось ввести 5 цифр.']");
 
