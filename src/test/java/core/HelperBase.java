@@ -54,4 +54,8 @@ public abstract class HelperBase {
             acceptNextAlert = true;
         }
     }
+
+    protected void sendEnterKey(By locator) {
+        driver.findElement(locator).sendKeys(Keys.ENTER);
+    }
 }
