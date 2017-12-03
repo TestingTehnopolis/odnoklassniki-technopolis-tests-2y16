@@ -1,15 +1,12 @@
 package tests;
 
-import core.DestinationUserPage;
-import core.OKMainPage;
-import core.TestBase;
-import core.UserMainPage;
+import core.*;
 import model.TestBot;
 import org.junit.Test;
 import java.util.Random;
 
 /**
- * Класс предназначен для поверки валидации полей пользовательского ввода на странице регистрации.
+ * Класс предназначен для тестирования доставки сообщения между двумя пользователями.
  * TestCase #11 в моем документе в папке https://drive.google.com/drive/folders/0B9vP3_6a1ROLeW9xYmFwVEVhYjQ
  */
 public class TestCase11 extends TestBase {
@@ -25,12 +22,13 @@ public class TestCase11 extends TestBase {
 
     @Test
     public void testSuccessfulMsgSending() {
-        new OKMainPage(driver).doLogin(botFrom);
-        new UserMainPage(driver).goToDestinationUser(botTo.getId());
+        new OKMainPage(driver)
+                .doLogin(botFrom);
+        new UserMainPage(driver)
+                .goToDestinationUser(botTo.getId());
         new DestinationUserPage(driver, botTo)
-                .clickWriteMsg()
-                .checkAppearanceMsgsLayer()
-                .checkDialogInListAndActivate()
+                .clickWriteMsg();
+        new DialogsPage(driver, botTo, true)
                 .typeMsg(msg)
                 .sendMsg()
                 .checkCreatingMsg(msg)
@@ -43,8 +41,8 @@ public class TestCase11 extends TestBase {
     public void testSuccessfulMsgReceiving() {
         new OKMainPage(driver).doLogin(botTo);
         new UserMainPage(driver)
-                .goToDialogs()
-                .checkAppearanceMsgsLayer()
+                .goToDialogs();
+        new DialogsPage(driver, botFrom, false)
                 .selectDialog(botFrom)
                 .checkReceiveMsg(msg)
                 .clickBtnExit()

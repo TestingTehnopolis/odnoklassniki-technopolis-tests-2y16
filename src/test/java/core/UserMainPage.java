@@ -37,25 +37,6 @@ public class UserMainPage extends PageBase {
         return this;
     }
 
-    public UserMainPage checkAppearanceMsgsLayer() {
-        Assert.assertTrue("Не дождались появления лейера с диалогами",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LAYER_DIALOG_LIST), 10, 500));
-        return this;
-    }
-
-    public UserMainPage selectDialog(TestBot bot) {
-        By dialog = By.xpath(".//a[contains(@class, 'chats_i_ovr') and contains(@href, '/messages/" + bot.getId() + "')]");
-        click(dialog);
-        return this;
-    }
-
-    public UserMainPage checkReceiveMsg(String msg) {
-        By MSG = By.xpath(".//div[contains(@class, 'msg_tx')]//span[text()='" + msg + "']");
-        Assert.assertTrue("Не дождались появления приниятого сообщения в обасти для сообщений",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(MSG), 10, 500));
-        return this;
-    }
-
     public UserMainPage clickBtnExit() {
         Assert.assertTrue("Не дождались появления кнопки выхода из аккаунта",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_EXIT), 10, 500));

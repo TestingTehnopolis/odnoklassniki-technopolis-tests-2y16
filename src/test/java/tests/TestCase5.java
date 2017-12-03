@@ -1,7 +1,5 @@
 package tests;
 
-//tbd добавить негативные тесты
-
 import core.OKMainPage;
 import core.RegistrateMainPage;
 import core.TestBase;
