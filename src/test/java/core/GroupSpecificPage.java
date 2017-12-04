@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class GroupSpecificPage extends HelperBase {
     private static final By CREATE_PHOTO_COMPETITION = By.xpath(".//*[contains(@hrefattrs,'st.layer.cmd=PopLayerCreatePhotoCompetition')]");
+    private static final By ADD_BOOKMARK = By.xpath(".//*[contains(@href,'cmd=AddBookmark')]");
 
     public GroupSpecificPage(WebDriver driver) {
         super(driver);
@@ -26,7 +27,7 @@ public class GroupSpecificPage extends HelperBase {
     }
 
     /**
-     * Нажимаем создать фотоконкурс
+     * Нажимаем создать фотоконкурс на странице группы
      */
     public void clickCreatePhotoCompetition() {
         Assert.assertTrue("Не найден элемент создания фотоконкурса", isElementPresent(CREATE_PHOTO_COMPETITION));
@@ -49,9 +50,17 @@ public class GroupSpecificPage extends HelperBase {
     }
 
     /**
-     * Нажимаем создать фотоконкурс
+     * Нажимаем создать фотоконкурс на леере
      */
     public void clickCreatePhotoCompetitionButton() {
         click(By.id("hook_FormButton_button_create_comp"));
+    }
+
+    /**
+     * Нажимаем кнопку добавления в закладки
+     */
+    public void clickAddBookmark() {
+        Assert.assertTrue("Не найден элемент добавления в закладки", isElementPresent(ADD_BOOKMARK));
+        driver.findElement(ADD_BOOKMARK).click();
     }
 }
