@@ -5,6 +5,10 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utility.MsgWrapper;
+import utility.Transformer;
+
+import java.util.List;
 
 /**
  * Класс отвечает за действия на странице с переписками.
@@ -23,11 +27,15 @@ public class DialogsPage extends PageBase {
     private static final By BTN_CONFIRM_EXIT = By.xpath(".//input[@id='hook_FormButton_logoff.confirm_not_decorate']");
 
 
-    public DialogsPage(WebDriver driver, TestBot botInterractWith, boolean fromOtherUserPage) {
+    public DialogsPage(WebDriver driver, TestBot botInteractWith, boolean fromOtherUserPage) {
         super(driver);
+
         HREF_DIALOG = By.xpath(".//a[contains(@class, 'chats_i_ovr') and contains(@href, '" +
-                botInterractWith.getId() +
+                botInteractWith.getId() +
                 "')]");
+        Assert.assertTrue("Не дождались появления адресата в списке диалогов",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(HREF_DIALOG), 10, 500));
+
         if(fromOtherUserPage)
             customCheck();
     }
@@ -79,10 +87,32 @@ public class DialogsPage extends PageBase {
         return this;
     }
 
+    public DialogsPage typeSendCheckMsgs(List<String> msgs) {
+        for (int i = 0; i < msgs.size(); i++) {
+            typeMsg(msgs.get(i));
+            sendMsg();
+            checkCreatingMsg(msgs.get(i));
+        }
+        return this;
+    }
+
     public DialogsPage checkReceiveMsg(String msg) {
         By MSG = By.xpath(".//div[contains(@class, 'msg_tx')]//span[text()='" + msg + "']");
         Assert.assertTrue("Не дождались появления приниятого сообщения в обасти для сообщений",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(MSG), 10, 500));
+        return this;
+    }
+
+    public DialogsPage checkWrightOrderReceiveMsgs(List<String> sentMsgs) {
+        Transformer tf = new Transformer(driver);
+        List<MsgWrapper> list = tf.getMsgs((byte) sentMsgs.size());
+
+        for (int i = 0; i < sentMsgs.size(); i++) {
+            Assert.assertTrue("переданные и принятые сообщения не совпадают",
+                    list.get(i).getMsgText().equals(sentMsgs.get(sentMsgs.size()-1-i)));
+//            System.out.println(i+1 + ") " + list.get(i).getMsgText());
+//            System.out.println(i+1 + ") " + sentMsgs.get(sentMsgs.size()-1-i));
+        }
         return this;
     }
 
@@ -93,8 +123,6 @@ public class DialogsPage extends PageBase {
     }
 
     private void customCheck() {
-        Assert.assertTrue("Не дождались появления адресата в списке диалогов",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(HREF_DIALOG), 10, 500));
         Assert.assertTrue("Не дождались активации диалога",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_DIALOG_TITLE), 10, 500));
     }

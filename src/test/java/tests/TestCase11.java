@@ -3,7 +3,7 @@ package tests;
 import core.*;
 import model.TestBot;
 import org.junit.Test;
-import java.util.Random;
+import utility.TestUtilities;
 
 /**
  * Класс предназначен для тестирования доставки сообщения между двумя пользователями.
@@ -11,14 +11,9 @@ import java.util.Random;
  */
 public class TestCase11 extends TestBase {
 
-    private TestBot botFrom;
-    private TestBot botTo;
-    static private String msg = generateMsg((byte) 5).toString();;
-
-    public TestCase11() {
-        botFrom = new TestBot("technopolisBot13", "technopolis16", "572241060457");
-        botTo = new TestBot("technopolisBot19", "technopolis16", "572241061743");
-    }
+    private TestBot botFrom = new TestBot("technopolisBot13", "technopolis16", "572241060457");;
+    private TestBot botTo = new TestBot("technopolisBot19", "technopolis16", "572241061743");;
+    static private String msg = TestUtilities.generateMsg((byte) 5).toString();
 
     @Test
     public void testSuccessfulMsgSending() {
@@ -48,15 +43,5 @@ public class TestCase11 extends TestBase {
                 .clickBtnExit()
                 .ckeckAppearanceLayerExit()
                 .clickBtnConfirmExit();
-    }
-
-    static private StringBuffer generateMsg(byte msgLength) {
-        Random random = new Random();
-        String dict = "abcdefghijklmnopqrstuvwxyz1234567890";
-        StringBuffer res = new StringBuffer(msgLength);
-        for (int i = 0; i < msgLength; i++) {
-            res.append(dict.charAt(random.nextInt(dict.length()-1)));
-        }
-        return res;
     }
 }
