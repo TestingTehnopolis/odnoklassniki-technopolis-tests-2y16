@@ -12,6 +12,9 @@ import java.util.Date;
 
 public class GroupBookmarkAdditionTest extends TestBase {
 
+    /*
+     Добавление группы в закладки.
+     */
     @Test
     public void testGroupBookmarkAddition() throws Exception {
         final String login = "technopolisbot3";

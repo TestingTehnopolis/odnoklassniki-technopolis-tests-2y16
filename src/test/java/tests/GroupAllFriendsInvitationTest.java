@@ -8,9 +8,13 @@ import org.junit.Test;
 
 public class GroupAllFriendsInvitationTest extends TestBase {
 
+    /*
+     Приглашение всех друзей в группу.
+     Для успешного прохождения теста требуется, чтобы у используемого пользователя был хотя бы 1 друг.
+     */
     @Test
     public void testAllFriendsInvitation() throws Exception {
-        final String login = "technopolisBot14";
+        final String login = "technopolisBot3";
         final String password = "technopolis16";
         final String groupName = "Please join me";
 
@@ -47,7 +51,7 @@ public class GroupAllFriendsInvitationTest extends TestBase {
         // нажимаем приглашение друзей
         groupSpecificPage.clickInviteFriends();
 
-        // проверяем, есть закладка для созданной группы на странице
+        // проверяем, что доступных для приглашения друзей не осталось
         Assert.assertFalse("После приглашения всех друзей имеются друзья, доступные для приглашения", groupSpecificPage.isSelectableFriendPresent());
 
     }

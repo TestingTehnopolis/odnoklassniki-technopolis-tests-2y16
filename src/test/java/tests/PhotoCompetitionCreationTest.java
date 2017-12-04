@@ -15,12 +15,15 @@ import java.text.SimpleDateFormat;
 
 public class PhotoCompetitionCreationTest extends TestBase {
 
+    /*
+     Создание фотоконкурса в группе.
+     */
     @Test
     public void testPhotoCompetitionCreation() throws Exception {
         final String login = "technopolisbot3";
         final String password = "technopolis16";
         final String groupID = "55238522503180";
-        final String competitionName = "Unique unexpected photo competition name";
+        final String competitionName = "Unexpected photo competition name";
         final String datePattern = "dd.MM.yyyy";
 
         // логин
