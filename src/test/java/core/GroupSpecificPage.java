@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class GroupSpecificPage extends HelperBase {
     private static final By CREATE_PHOTO_COMPETITION = By.xpath(".//*[contains(@hrefattrs,'st.layer.cmd=PopLayerCreatePhotoCompetition')]");
     private static final By ADD_BOOKMARK = By.xpath(".//*[contains(@href,'cmd=AddBookmark')]");
+    private static final By INVITE_FRIENDS = By.xpath(".//*[@id='hook_Block_LeftColumnTopCardAltGroup']//*[contains(@hrefattrs,'st.layer.cmd=InviteFriendsToGroup2')]");
+    private static final By INVITE_SELECTABLE_FRIEND = By.xpath(".//*[@id='listBlockPanelInviteFriendsToGroup2FriendsList']//*[@data-id and contains(@class,'selectable-card')]");
+    private static final By INVITE_SELECT_ALL = By.xpath(".//*[@id='field_selectedAll']");
 
     public GroupSpecificPage(WebDriver driver) {
         super(driver);
@@ -62,5 +65,36 @@ public class GroupSpecificPage extends HelperBase {
     public void clickAddBookmark() {
         Assert.assertTrue("Не найден элемент добавления в закладки", isElementPresent(ADD_BOOKMARK));
         driver.findElement(ADD_BOOKMARK).click();
+    }
+
+    /**
+     * Проверяем, имеется ли друг, доступный для приглашения
+     * @boolean имеется ли доступный друг
+     */
+    public boolean isSelectableFriendPresent() {
+        return isElementPresent(INVITE_SELECTABLE_FRIEND);
+    }
+
+    /**
+     * Нажимаем кнопку приглашения друзей
+     */
+    public void clickInviteFriends() {
+        Assert.assertTrue("Не найден элемент приглашения друзей", isElementPresent(INVITE_FRIENDS));
+        driver.findElement(INVITE_FRIENDS).click();
+    }
+
+    /**
+     * Выбираем всех друзей (если есть друзья для приглашения)
+     */
+    public void selectAllForInvitation() {
+        Assert.assertTrue("Не найдены друзья для приглашения", isSelectableFriendPresent());
+        driver.findElement(INVITE_SELECT_ALL).click();
+    }
+
+    /**
+     * Подвтерждаем приглашение друзей
+     */
+    public void submitFriendInvitation() {
+        click(By.id("hook_FormButton_button_invite"));
     }
 }
