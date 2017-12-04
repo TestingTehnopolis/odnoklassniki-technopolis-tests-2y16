@@ -14,6 +14,11 @@ public class GroupSpecificPage extends HelperBase {
     private static final By INVITE_SELECTABLE_FRIEND = By.xpath(".//*[@id='listBlockPanelInviteFriendsToGroup2FriendsList']//*[@data-id and contains(@class,'selectable-card')]");
     private static final By INVITE_SELECT_ALL = By.xpath(".//*[@id='field_selectedAll']");
 
+    private static final String CREATE_NEW_PHOTO_COMPETITION_NAME_ID = "field_name";
+    private static final String CREATE_NEW_PHOTO_COMPETITION_TILL_ID = "field_till";
+    private static final String CREATE_NEW_PHOTO_COMPETITION_SUBMIT_ID = "hook_FormButton_button_create_comp";
+    private static final String CREATE_FRIEND_INVITATION_SUBMIT_ID = "hook_FormButton_button_invite";
+
     public GroupSpecificPage(WebDriver driver) {
         super(driver);
     }
@@ -41,22 +46,22 @@ public class GroupSpecificPage extends HelperBase {
      * Вводим название фотоконкурса
      */
     public void typePhotoCompetitionName(String photoCompetitionName) {
-        type(photoCompetitionName, By.id("field_name"));
+        type(photoCompetitionName, By.id(CREATE_NEW_PHOTO_COMPETITION_NAME_ID));
     }
 
     /**
      * Вводим дату окончания фотоконкурса
      */
     public void typePhotoCompetitionTillDate(String photoCompetitionTillDate) {
-        type(photoCompetitionTillDate, By.id("field_till"));
-        sendEnterKey(By.id("field_till"));
+        type(photoCompetitionTillDate, By.id(CREATE_NEW_PHOTO_COMPETITION_TILL_ID));
+        sendEnterKey(By.id(CREATE_NEW_PHOTO_COMPETITION_TILL_ID));
     }
 
     /**
      * Нажимаем создать фотоконкурс на леере
      */
-    public void clickCreatePhotoCompetitionButton() {
-        click(By.id("hook_FormButton_button_create_comp"));
+    public void clickSubmitCreatePhotoCompetition() {
+        click(By.id(CREATE_NEW_PHOTO_COMPETITION_SUBMIT_ID));
     }
 
     /**
@@ -95,6 +100,6 @@ public class GroupSpecificPage extends HelperBase {
      * Подвтерждаем приглашение друзей
      */
     public void submitFriendInvitation() {
-        click(By.id("hook_FormButton_button_invite"));
+        click(By.id(CREATE_FRIEND_INVITATION_SUBMIT_ID));
     }
 }

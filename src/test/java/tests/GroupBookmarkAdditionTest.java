@@ -38,7 +38,7 @@ public class GroupBookmarkAdditionTest extends TestBase {
         groupMainPage.clickCreateGroup();
         groupMainPage.clickInterestGroup();
         groupMainPage.typeGroupName(groupName);
-        groupMainPage.clickCreateButton();
+        groupMainPage.clickSubmitCreateButton();
 
         GroupSpecificPage groupSpecificPage = new GroupSpecificPage(driver);
 

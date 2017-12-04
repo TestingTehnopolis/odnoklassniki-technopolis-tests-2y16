@@ -11,11 +11,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupMainPage extends HelperBase{
+public class GroupMainPage extends HelperBase {
 
     private static final By CREATE_NEW_GROUP = By.xpath(".//*[contains(@href,'st.layer.cmd=PopLayerCreateAltGroup')]");
-    private static final By GROUPS = By.xpath(".//*[contains(@class, 'ugrid __l')]//*[contains(@data-l,'t,visit')]");
+    private static final By GROUP = By.xpath(".//*[contains(@data-l, 'groupCard,USER_GROUPS_LEFT_NAV')]//*[contains(@data-l,'t,visit')]");
+    private static final By INTEREST_GROUP = By.xpath(".//*[contains(@class,'create-group-dialog_img __interest')]");
 
+    private static final String CREATE_NEW_GROUP_SUBMIT_ID = "hook_FormButton_button_create";
+    private static final String CREATE_NEW_GROUP_NAME_ID = "field_name";
     private static final String OK_GROUP_URL = "https://ok.ru/group/";
     public GroupMainPage(WebDriver driver) {
         super(driver);
@@ -34,16 +37,16 @@ public class GroupMainPage extends HelperBase{
                 .until(ExpectedConditions.visibilityOfElementLocated(CREATE_NEW_GROUP));
     }
 
-    public void clickCreateButton() {
-        click(By.id("hook_FormButton_button_create"));
+    public void clickSubmitCreateButton() {
+        click(By.id(CREATE_NEW_GROUP_SUBMIT_ID));
     }
 
     public void typeGroupName(String groupName) {
-        type(groupName, By.id("field_name"));
+        type(groupName, By.id(CREATE_NEW_GROUP_NAME_ID));
     }
 
     public void clickInterestGroup() {
-        click(By.xpath(".//*[contains(@class,'create-group-dialog_img __interest')]"));
+        click(INTEREST_GROUP);
     }
 
     public void clickCreateGroup() {
@@ -72,9 +75,9 @@ public class GroupMainPage extends HelperBase{
      * Получаем обертки групп
      */
     private List<GroupWrapper> getGroupWrappers() {
-        Assert.assertTrue("Не найден элементы в списке групп", isElementPresent(GROUPS));
+        Assert.assertTrue("Не найден элементы в списке групп", isElementPresent(GROUP));
 
-        final List<WebElement> groupElements = driver.findElements(GROUPS);
+        final List<WebElement> groupElements = driver.findElements(GROUP);
         final List<GroupWrapper> groupWrappers = new ArrayList<GroupWrapper>(groupElements.size());
 
 

@@ -20,9 +20,9 @@ public class PhotoCompetitionCreationTest extends TestBase {
      */
     @Test
     public void testPhotoCompetitionCreation() throws Exception {
-        final String login = "technopolisbot3";
+        final String login = "technopolisbot5";
         final String password = "technopolis16";
-        final String groupID = "55238522503180";
+        final String groupID = "55240793718798";
         final String competitionName = "Unexpected photo competition name";
         final String datePattern = "dd.MM.yyyy";
 
@@ -40,6 +40,9 @@ public class PhotoCompetitionCreationTest extends TestBase {
 
         // инициируем создание фотоконкурса
         groupSpecificPage.clickCreatePhotoCompetition();
+
+        Thread.sleep(1000);
+
         // вводим название
         groupSpecificPage.typePhotoCompetitionName(competitionName);
         // вводим текущую дату как дату окончания
@@ -47,7 +50,7 @@ public class PhotoCompetitionCreationTest extends TestBase {
 
         Thread.sleep(1000);
         // создаем фотоконкурс
-        groupSpecificPage.clickCreatePhotoCompetitionButton();
+        groupSpecificPage.clickSubmitCreatePhotoCompetition();
 
         // после создания фотоконкурса должен состояться переход на страницу с альбомом фотоконкурса
         GroupSpecificAlbumPage groupSpecificAlbumPage = new GroupSpecificAlbumPage(driver);

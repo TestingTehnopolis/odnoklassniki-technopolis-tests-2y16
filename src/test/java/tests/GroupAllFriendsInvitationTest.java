@@ -31,7 +31,7 @@ public class GroupAllFriendsInvitationTest extends TestBase {
         groupMainPage.clickCreateGroup();
         groupMainPage.clickInterestGroup();
         groupMainPage.typeGroupName(groupName);
-        groupMainPage.clickCreateButton();
+        groupMainPage.clickSubmitCreateButton();
 
         Thread.sleep(1000);
 
@@ -40,8 +40,12 @@ public class GroupAllFriendsInvitationTest extends TestBase {
         // нажимаем приглашение друзей
         groupSpecificPage.clickInviteFriends();
 
+        Thread.sleep(1000);
+
         // нажимаем выбрать всех
         groupSpecificPage.selectAllForInvitation();
+
+        Thread.sleep(1000);
 
         // подвтерждаем приглашение друзей (нажимаем пригласить на леере)
         groupSpecificPage.submitFriendInvitation();
