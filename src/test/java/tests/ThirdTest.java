@@ -13,26 +13,22 @@ import org.testng.Assert;
  * и проверяет что он появился на стене сообщества
  */
 public class ThirdTest extends TestBase {
-
     private final String GROUP_URL = "https://www.ok.ru/group/55228108832779";
-    private final String TOPIC_MESSAGE = "privet strannik ;)";
+    private final String TOPIC_MESSAGE = "privet strannik ;)12345345";
+    private final String botLogin = "technopolisBot2";
+    private final String botPassword = "technopolis16";
 
     @Test
     public void postInGroupCreation() {
         new LoginMainPage(driver).doLogin(
-                new TestBot("technopolisBot2", "technopolis16"));
+                new TestBot(botLogin, botPassword));
         driver.navigate().to(GROUP_URL);
 
         CurrentGroupMainPage currGroup = new CurrentGroupMainPage(driver);
-
-        JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("window.scrollBy(0,400)", "");
-
         currGroup.clickCreateNewTopic();
         currGroup.printTextTopic(TOPIC_MESSAGE);
         currGroup.clickShareTopic();
 
         Assert.assertEquals(TOPIC_MESSAGE, currGroup.getFirstPostTest());
     }
-
 }

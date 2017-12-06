@@ -19,14 +19,15 @@ import org.testng.Assert;
 * имеет имя и описание такое, которое мы задали изначально.
 * */
 public class SecondTest extends TestBase {
-
     private final String GROUP_NAME = "HELLO, I'M STAS";
     private final String GROUP_DESCRIPTION = "MY OWN GROUP IN OK";
+    private final String botLogin = "technopolisBot2";
+    private final String botPassword = "technopolis16";
 
     @Test
     public void testGroupCreation() throws Exception {
         new LoginMainPage(driver).doLogin(
-                new TestBot("technopolisBot2", "technopolis16"));
+                new TestBot(botLogin, botPassword));
         new UserMainPage(driver).clickGroupsOnToolbar();
 
         GroupMainPage groupMainPage = new GroupMainPage(driver);
@@ -34,7 +35,8 @@ public class SecondTest extends TestBase {
         groupMainPage.clickInterestGroup();
         groupMainPage.typeGroupName(GROUP_NAME);
         groupMainPage.typeGroupDescription(GROUP_DESCRIPTION);
-        // groupMainPage.setSubCategory("Игры"); почему не получается - спроси
+        //TODO: спросить почему не выбираются категории
+        // groupMainPage.setSubCategory("Игры");
         groupMainPage.clickCreateButton();
 
         // проверяем на верность введенную ранее информацию
