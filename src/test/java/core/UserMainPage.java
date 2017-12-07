@@ -12,8 +12,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class UserMainPage extends HelperBase {
 
+    private static final By USER_NAME = By.xpath(".//*[contains(@class, 'mctc_name_tx')]");
     private static final By GROUPS_ON_TOOLBAR = By.xpath(".//*[@class='mctc_navMenuSec' and contains(@href,'groups')]");
-    private static final By GROUPS_COUNTER = By.xpath("//*[@class='mctc_navMenuSec' and contains(@href,'groups')]//*[contains(@class,'navMenuCount')]");
+    private static final By GROUPS_COUNTER = By.xpath("//*[contains(@href,'groups')]//*[contains(@class,'navMenuCount')]");
 
     public UserMainPage(WebDriver driver) {
         super(driver);
@@ -21,11 +22,11 @@ public class UserMainPage extends HelperBase {
 
     @Override
     protected void check() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(GROUPS_ON_TOOLBAR) );
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(USER_NAME) );
     }
 
     public GroupMainPage clickGroupsOnToolbar() {
-        Assert.assertTrue("Не найдена ссылка на группы в тулбаре", isElementPresent(GROUPS_ON_TOOLBAR));
+        Assert.assertTrue("Не найдена ссылка на группы в тулбаре", isElementVisible(GROUPS_ON_TOOLBAR));
         click(GROUPS_ON_TOOLBAR);
         return new GroupMainPage(driver);
     }

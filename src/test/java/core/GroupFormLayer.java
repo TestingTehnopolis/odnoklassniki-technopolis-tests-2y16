@@ -4,12 +4,15 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class GroupFormLayer extends HelperBase {
 
     private static final By CREATE_BUTTON = By.id("hook_FormButton_button_create");
     private static final By NAME = By.id("field_name");
     private static final By NAME_FORM = By.xpath("//*[@id='field_name']/parent::*");
+    private static final By GROUP_TYPE_TITLE =  By.xpath(".//*[contains(@class, 'portlet_h') and contains(@class, 'portlet_h__sa' )]");
 
 
     public GroupFormLayer(WebDriver driver) {
@@ -18,12 +21,14 @@ public class GroupFormLayer extends HelperBase {
 
     @Override
     protected void check() {
-
+        new WebDriverWait(driver, 0).until(ExpectedConditions.visibilityOfElementLocated(GROUP_TYPE_TITLE));
+        Assert.assertTrue("Не найден элемент создания группы", isElementVisible(GROUP_TYPE_TITLE));
     }
 
-    public void clickCreateButton() {
-        Assert.assertTrue("Не найден элемент создания группы", isElementPresent(CREATE_BUTTON));
+    public FieldFillingErrorPromise clickCreateButton() {
+        Assert.assertTrue("Не найден элемент создания группы", isElementVisible(CREATE_BUTTON));
         click(CREATE_BUTTON);
+        return getFieldFillingErrorPromise();
     }
 
     public GroupPage create() {

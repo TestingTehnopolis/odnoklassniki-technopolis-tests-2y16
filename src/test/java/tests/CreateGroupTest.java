@@ -5,6 +5,7 @@ import model.TestBot;
 import org.junit.Assert;
 import org.junit.Test;
 import java.io.IOException;
+import java.util.List;
 
 /*
     Группа тестов, проверяющая создание групп.
@@ -24,7 +25,7 @@ public class CreateGroupTest extends TestBase {
                 .doLogin(new TestBot("config/auth.conf"))
                 .clickGroupsOnToolbar()
                 .clickCreateGroup()
-                .chooseGroup(NewGroupLayer.GroupsTypes.PUBLIC_PAGE)
+                .chooseGroup(NewGroupLayer.GroupsTypes.INTEREST_GROUP)
                 .typeGroupName("New group 1")
                 .create();
     }
@@ -44,7 +45,7 @@ public class CreateGroupTest extends TestBase {
         mainPage = mainPage
                 .clickGroupsOnToolbar()
                 .clickCreateGroup()
-                .chooseGroup(NewGroupLayer.GroupsTypes.PUBLIC_PAGE)
+                .chooseGroup(NewGroupLayer.GroupsTypes.INTEREST_GROUP)
                 .typeGroupName("New group 2")
                 .create()
                 .logout()
@@ -69,7 +70,38 @@ public class CreateGroupTest extends TestBase {
                 .clickCreateGroup()
                 .chooseGroup(NewGroupLayer.GroupsTypes.PERFORMANCE);
 
-        performance.clickCreateButton();
-        performance.getFieldFillingErrorPromise().andNameErrorPresent();
+        performance.clickCreateButton().andNameErrorPresent();
+    }
+
+    /*
+    Тест проверяет появление созданной группы в списке групп пользователя.
+    */
+    @Test
+    public void groupsListTest() throws IOException {
+
+        String groupName = "New group 1";
+
+        UserMainPage userMainPage = new LoginMainPage(driver)
+                .doLogin(new TestBot("config/auth.conf"))
+                .clickGroupsOnToolbar()
+                .clickCreateGroup()
+                .chooseGroup(NewGroupLayer.GroupsTypes.INTEREST_GROUP)
+                .typeGroupName(groupName)
+                .create()
+                .mainPage();
+
+        List<UserGroupWrapper> groups = userMainPage
+                .clickGroupsOnToolbar()
+                .clickMyGroups()
+                .getGroups();
+
+        boolean present = false;
+        for (UserGroupWrapper group : groups) {
+            if (group.getName().equals(groupName)) {
+                present = true;
+                break;
+            }
+        }
+        Assert.assertTrue("Созданная группа не появилась в списке групп пользователей", present);
     }
 }

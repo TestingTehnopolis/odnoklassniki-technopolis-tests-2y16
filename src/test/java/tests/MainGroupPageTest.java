@@ -34,8 +34,8 @@ public class MainGroupPageTest extends TestBase {
      */
     @Test
     public void testGroupsList() {
-        List<GroupWrapper> groups = groupMainPage.getGroups();
-        for (GroupWrapper group : groups) {
+        List<PopularGroupWrapper> groups = groupMainPage.getGroups();
+        for (PopularGroupWrapper group : groups) {
             Assert.assertTrue("Group contains name", !group.getName().isEmpty());
             Assert.assertTrue("Group contains subscribers count", !group.getSubscribersCnt().isEmpty());
         }
@@ -47,7 +47,7 @@ public class MainGroupPageTest extends TestBase {
      */
     @Test
     public void testGroupsAmount() {
-        List<GroupWrapper> groups = groupMainPage.getGroups();
+        List<PopularGroupWrapper> groups = groupMainPage.getGroups();
         int size = groups.size();
         Assert.assertTrue("It should contain at least one group", size > 0);
     }
@@ -63,7 +63,7 @@ public class MainGroupPageTest extends TestBase {
      */
     @Test
     public void testGroupsAmountIncrease() throws InterruptedException {
-        List<GroupWrapper> groups = groupMainPage.getGroups();
+        List<PopularGroupWrapper> groups = groupMainPage.getGroups();
         int old_size = groups.size();
         groupMainPage.moveToGroup(groups.get(groups.size() - 1));
         Thread.sleep(1000);

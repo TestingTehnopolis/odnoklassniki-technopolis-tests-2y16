@@ -32,11 +32,11 @@ public class NewGroupLayer extends HelperBase {
     @Override
     protected void check() {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(HEADER) );
+        Assert.assertTrue("Не найден элемент создания группы", isElementVisible(HEADER));
     }
 
     public GroupFormLayer chooseGroup(GroupsTypes type) {
-        Assert.assertTrue("Не найден элемент списка типов групп", isElementPresent(groups.get(type)));
-        Assert.assertTrue("Не найден элемент списка типов групп", isElementPresent(groups.get(type)));
+        Assert.assertTrue("Не найден элемент списка типов групп", isElementVisible(groups.get(type)));
         click(groups.get(type));
         return new GroupFormLayer(driver);
     }

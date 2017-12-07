@@ -44,6 +44,14 @@ public abstract class HelperBase {
         }
     }
 
+    protected boolean isElementVisible(By by) {
+        try {
+            return driver.findElement(by).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
     protected boolean isElementPresent(WebElement el, By by) {
         try {
             el.findElement(by);

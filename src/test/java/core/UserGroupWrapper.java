@@ -7,18 +7,18 @@ import org.openqa.selenium.WebElement;
 /**
  * Это обёртка для популярных групп на главной странице групп.
  */
-public class GroupWrapper extends HelperBase {
+public class UserGroupWrapper extends HelperBase {
 
     private final WebElement element;
 
-    private static final By NAME = By.xpath(".//*[contains(@class,'group-name-link')]");
-    private static final By SUBSCRIBERS_CNT = By.xpath("//*[contains(@class, 'lp-t') and (contains(text(), 'участников') or contains(text(), 'участник'))]");
+    private static final By NAME = By.xpath(".//*[contains(@class,'o two-lines')]");
+
 
     /**
      * @param driver  Драйвер браузера.
      * @param element Элемент, который соответствует популярной группе.
      */
-    public GroupWrapper(WebDriver driver, WebElement element) {
+    public UserGroupWrapper(WebDriver driver, WebElement element) {
         super(driver);
         this.element = element;
     }
@@ -42,10 +42,4 @@ public class GroupWrapper extends HelperBase {
         return element.findElement(NAME).getText();
     }
 
-    /**
-     * @return Текст с количеством подписчиков популярной группы.
-     */
-    public String getSubscribersCnt() {
-        return element.findElement(SUBSCRIBERS_CNT).getText();
-    }
 }
