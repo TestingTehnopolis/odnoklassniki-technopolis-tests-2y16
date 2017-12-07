@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
-
 public abstract class HelperBase {
     protected WebDriver driver;
     private boolean acceptNextAlert = true;
