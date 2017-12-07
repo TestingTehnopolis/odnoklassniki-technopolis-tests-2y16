@@ -26,35 +26,25 @@ public class PhotoCompetitionCreationTest extends TestBase {
         final String competitionName = "Unexpected photo competition name";
         final String datePattern = "dd.MM.yyyy";
 
-        // логин
-        new LoginMainPage(driver).doLogin(new TestBot(login, password));
+        // логин и переход на страницу пользователя
+        UserMainPage userMainPage = new LoginMainPage(driver).doLogin(new TestBot(login, password));
 
         // переход на страницу групп
-        new UserMainPage(driver).clickGroupsOnToolbar();
-        GroupMainPage groupMainPage = new GroupMainPage(driver);
+        GroupMainPage groupMainPage = userMainPage.clickGroupsOnToolbar();
 
         // переход на страницу конкретной группы
-        groupMainPage.clickGroupByID(groupID);
-
-        GroupSpecificPage groupSpecificPage = new GroupSpecificPage(driver);
+        GroupSpecificPage groupSpecificPage = groupMainPage.clickGroupByID(groupID);
 
         // инициируем создание фотоконкурса
         groupSpecificPage.clickCreatePhotoCompetition();
-
-        Thread.sleep(1000);
 
         // вводим название
         groupSpecificPage.typePhotoCompetitionName(competitionName);
         // вводим текущую дату как дату окончания
         groupSpecificPage.typePhotoCompetitionTillDate(new SimpleDateFormat(datePattern).format(new Date()));
 
-        Thread.sleep(1000);
-        // создаем фотоконкурс
-        groupSpecificPage.clickSubmitCreatePhotoCompetition();
-
-        // после создания фотоконкурса должен состояться переход на страницу с альбомом фотоконкурса
-        GroupSpecificAlbumPage groupSpecificAlbumPage = new GroupSpecificAlbumPage(driver);
-        Thread.sleep(1000);
+        // создаем фотоконкурс, после создания должен состояться переход на страницу с альбомом фотоконкурса
+        GroupSpecificAlbumPage groupSpecificAlbumPage = groupSpecificPage.clickSubmitCreatePhotoCompetition();
 
         // ищем название фотоконкурса (совпадает с названием альбома) на странице
         Assert.assertTrue("Альбом с названием фотоконкурса не найден", groupSpecificAlbumPage.isAlbumNamePresent(competitionName));

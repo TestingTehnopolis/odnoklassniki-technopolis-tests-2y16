@@ -25,34 +25,24 @@ public class GroupBookmarkAdditionTest extends TestBase {
          используем точное текущее время
          */
         final String groupName = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.SSS").format(new Date());
-        final String bookmarkScrollBlockID = "hook_Block_LeftColumnBookmarks";
 
-        // логин
-        new LoginMainPage(driver).doLogin(new TestBot(login, password));
+        // логин, затем создадим новую группу, которую будем добавлять в закладки
+        UserMainPage userMainPage = new LoginMainPage(driver).doLogin(new TestBot(login, password));
+        GroupMainPage groupMainPage = userMainPage.clickGroupsOnToolbar();
 
-        // создадим новую группу, которую будем добавлять в закладки
-        UserMainPage userMainPage = new UserMainPage(driver);
-        userMainPage.clickGroupsOnToolbar();
-
-        GroupMainPage groupMainPage = new GroupMainPage(driver);
         groupMainPage.clickCreateGroup();
         groupMainPage.clickInterestGroup();
         groupMainPage.typeGroupName(groupName);
-        groupMainPage.clickSubmitCreateButton();
-
-        GroupSpecificPage groupSpecificPage = new GroupSpecificPage(driver);
+        GroupSpecificPage groupSpecificPage = groupMainPage.clickSubmitCreateButton();
 
         // добавляем закладку
         groupSpecificPage.clickAddBookmark();
 
         // переходим на домашнюю страницу
-        userMainPage.clickHome();
-
-        Thread.sleep(1000);
+        userMainPage = groupSpecificPage.getToolbar().clickHome();
 
         // производим скролл до блока с закладками
-        JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("document.getElementById(\"" + bookmarkScrollBlockID + "\").scrollIntoView();", "");
+        userMainPage.scrollToBookmarks();
 
         // проверяем, есть закладка для созданной группы на странице
         Assert.assertTrue("Закладка с группой не найдена", userMainPage.isBookmarkPresent(groupName));

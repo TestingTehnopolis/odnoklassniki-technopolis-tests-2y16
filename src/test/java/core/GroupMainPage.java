@@ -25,21 +25,14 @@ public class GroupMainPage extends HelperBase {
     }
 
     protected void check() {
-        //пример использования метода isElementVisible из HelperBase
-        Assert.assertTrue( "Не дождались кнопки созданиия новой группы",
-                new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return isElementVisible(CREATE_NEW_GROUP);
-            }
-        }));
-
         //пример использования класса ExpectedConditions в сочетании с методом explicitWait из HelperBase
         Assert.assertTrue("Не дождались кнопки созданиия новой группы",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(CREATE_NEW_GROUP), 10, 500));
     }
 
-    public void clickSubmitCreateButton() {
+    public GroupSpecificPage clickSubmitCreateButton() {
         click(By.id(CREATE_NEW_GROUP_SUBMIT_ID));
+        return new GroupSpecificPage(driver);
     }
 
     public void typeGroupName(String groupName) {
@@ -60,7 +53,7 @@ public class GroupMainPage extends HelperBase {
      *
      * @param groupID id группы
      */
-    public void clickGroupByID(final String groupID) {
+    public GroupSpecificPage clickGroupByID(final String groupID) {
         final List<GroupWrapper> groups = getGroupWrappers();
 
         for (GroupWrapper group : groups) {
@@ -69,7 +62,7 @@ public class GroupMainPage extends HelperBase {
                 break;
             }
         }
-        return;
+        return new GroupSpecificPage(driver);
     }
 
     /**

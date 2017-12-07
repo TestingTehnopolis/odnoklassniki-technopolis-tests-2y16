@@ -18,40 +18,28 @@ public class GroupAllFriendsInvitationTest extends TestBase {
         final String password = "technopolis16";
         final String groupName = "Please join me";
 
-        // логин
-        new LoginMainPage(driver).doLogin(new TestBot(login, password));
+        // логин, затем создадим новую группу, в которую будем добавлять всех друзей
+        UserMainPage userMainPage = new LoginMainPage(driver).doLogin(new TestBot(login, password));
 
-        Thread.sleep(1000);
-
-        // создадим новую группу, в которую будем добавлять всех друзей
-        UserMainPage userMainPage = new UserMainPage(driver);
         userMainPage.clickGroupsOnToolbar();
 
         GroupMainPage groupMainPage = new GroupMainPage(driver);
         groupMainPage.clickCreateGroup();
         groupMainPage.clickInterestGroup();
         groupMainPage.typeGroupName(groupName);
-        groupMainPage.clickSubmitCreateButton();
-
-        Thread.sleep(1000);
-
-        GroupSpecificPage groupSpecificPage = new GroupSpecificPage(driver);
+        GroupSpecificPage groupSpecificPage = groupMainPage.clickSubmitCreateButton();
 
         // нажимаем приглашение друзей
         groupSpecificPage.clickInviteFriends();
 
-        Thread.sleep(1000);
-
         // нажимаем выбрать всех
         groupSpecificPage.selectAllForInvitation();
 
-        Thread.sleep(1000);
-
         // подвтерждаем приглашение друзей (нажимаем пригласить на леере)
-        groupSpecificPage.submitFriendInvitation();
+        groupSpecificPage = groupSpecificPage.submitFriendInvitation();
 
-        Thread.sleep(3000);
-
+        // ждем пока пропадет модальное окно с сообщением о том, что друзья приглашены
+        Thread.sleep(2000);
         // нажимаем приглашение друзей
         groupSpecificPage.clickInviteFriends();
 

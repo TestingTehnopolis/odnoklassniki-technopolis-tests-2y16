@@ -24,14 +24,8 @@ public class GroupSpecificPage extends HelperBase {
     }
 
     protected void check() {
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return isElementPresent(CREATE_PHOTO_COMPETITION);
-            }
-        });
-
-        (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(CREATE_PHOTO_COMPETITION));
+        Assert.assertTrue("Не дождались кнопки созданиия фотоконкурса",
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(CREATE_PHOTO_COMPETITION), 10, 500));
     }
 
     /**
@@ -60,8 +54,9 @@ public class GroupSpecificPage extends HelperBase {
     /**
      * Нажимаем создать фотоконкурс на леере
      */
-    public void clickSubmitCreatePhotoCompetition() {
+    public GroupSpecificAlbumPage clickSubmitCreatePhotoCompetition() {
         click(By.id(CREATE_NEW_PHOTO_COMPETITION_SUBMIT_ID));
+        return new GroupSpecificAlbumPage(driver);
     }
 
     /**
@@ -99,7 +94,15 @@ public class GroupSpecificPage extends HelperBase {
     /**
      * Подвтерждаем приглашение друзей
      */
-    public void submitFriendInvitation() {
+    public GroupSpecificPage submitFriendInvitation() {
         click(By.id(CREATE_FRIEND_INVITATION_SUBMIT_ID));
+        return new GroupSpecificPage(driver);
+    }
+
+    /**
+     * Получаем toolbar
+     */
+    public ToolbarPartial getToolbar() {
+        return new ToolbarPartial(driver);
     }
 }

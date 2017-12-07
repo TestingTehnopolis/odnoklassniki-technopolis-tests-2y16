@@ -107,7 +107,7 @@ public abstract class HelperBase {
         Preconditions.checkState(millisecondsBetweenChecks < (maxCheckTimeInSeconds * 1000),
                 "Millis between checks must be less than max seconds to wait");
     }
-    
+
     /*
      * Отправка нажатия клавиши Enter
      */
