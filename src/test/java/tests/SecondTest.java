@@ -17,7 +17,7 @@ public class SecondTest extends TestBase {
         groupMainPage.clickCreateGroup();
         groupMainPage.clickInterestGroup();
         groupMainPage.typeGroupName("Group");
-        groupMainPage.clickCreateButton();
+        groupMainPage.clickSubmitCreateButton();
         //todo не хватает проверки
     }
 }

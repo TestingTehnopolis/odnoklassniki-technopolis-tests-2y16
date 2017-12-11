@@ -68,6 +68,7 @@ public abstract class HelperBase {
         }
     }
 
+
     public boolean explicitWait(final ExpectedCondition<?> condition, long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
         Preconditions.checkNotNull(condition, "Condition must be not null");
         Preconditions.checkArgument(TimeUnit.MINUTES.toSeconds(3) > maxCheckTimeInSeconds, "Max check time in seconds should be less than 3 minutes");
@@ -105,5 +106,12 @@ public abstract class HelperBase {
         Preconditions.checkState(millisecondsBetweenChecks > 0, "milliseconds count between checks must be not 0");
         Preconditions.checkState(millisecondsBetweenChecks < (maxCheckTimeInSeconds * 1000),
                 "Millis between checks must be less than max seconds to wait");
+    }
+
+    /*
+     * Отправка нажатия клавиши Enter
+     */
+    protected void sendEnterKey(By locator) {
+        driver.findElement(locator).sendKeys(Keys.ENTER);
     }
 }

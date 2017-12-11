@@ -3,46 +3,82 @@ package core;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class GroupMainPage extends HelperBase{
+import java.util.ArrayList;
+import java.util.List;
+
+public class GroupMainPage extends HelperBase {
 
     private static final By CREATE_NEW_GROUP = By.xpath(".//*[contains(@href,'st.layer.cmd=PopLayerCreateAltGroup')]");
+    private static final By GROUP = By.xpath(".//*[contains(@data-l, 'groupCard,USER_GROUPS_LEFT_NAV')]//*[contains(@data-l,'t,visit')]");
+    private static final By INTEREST_GROUP = By.xpath(".//*[contains(@class,'create-group-dialog_img __interest')]");
 
+    private static final String CREATE_NEW_GROUP_SUBMIT_ID = "hook_FormButton_button_create";
+    private static final String CREATE_NEW_GROUP_NAME_ID = "field_name";
+    private static final String OK_GROUP_URL = "https://ok.ru/group/";
     public GroupMainPage(WebDriver driver) {
         super(driver);
     }
 
     protected void check() {
-        //пример использования метода isElementVisible из HelperBase
-        Assert.assertTrue( "Не дождались кнопки созданиия новой группы",
-                new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return isElementVisible(CREATE_NEW_GROUP);
-            }
-        }));
-
         //пример использования класса ExpectedConditions в сочетании с методом explicitWait из HelperBase
         Assert.assertTrue("Не дождались кнопки созданиия новой группы",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(CREATE_NEW_GROUP), 10, 500));
     }
 
-    public void clickCreateButton() {
-        click(By.id("hook_FormButton_button_create"));
+    public GroupSpecificPage clickSubmitCreateButton() {
+        click(By.id(CREATE_NEW_GROUP_SUBMIT_ID));
+        return new GroupSpecificPage(driver);
     }
 
     public void typeGroupName(String groupName) {
-        type(groupName, By.id("field_name"));
+        type(groupName, By.id(CREATE_NEW_GROUP_NAME_ID));
     }
 
     public void clickInterestGroup() {
-        click(By.xpath(".//*[contains(@class,'create-group-dialog_img __interest')]"));
+        click(INTEREST_GROUP);
     }
 
     public void clickCreateGroup() {
         Assert.assertTrue("Не найден элемент создания группы", isElementPresent(CREATE_NEW_GROUP));
         driver.findElement(CREATE_NEW_GROUP).click();
+    }
+
+    /**
+     * Перейти по ссылке группы
+     *
+     * @param groupID id группы
+     */
+    public GroupSpecificPage clickGroupByID(final String groupID) {
+        final List<GroupWrapper> groups = getGroupWrappers();
+
+        for (GroupWrapper group : groups) {
+            if (group.getGroupHref().equals(OK_GROUP_URL + groupID)) {
+                group.open();
+                break;
+            }
+        }
+        return new GroupSpecificPage(driver);
+    }
+
+    /**
+     * Получаем обертки групп
+     */
+    private List<GroupWrapper> getGroupWrappers() {
+        Assert.assertTrue("Не найден элементы в списке групп", isElementPresent(GROUP));
+
+        final List<WebElement> groupElements = driver.findElements(GROUP);
+        final List<GroupWrapper> groupWrappers = new ArrayList<GroupWrapper>(groupElements.size());
+
+
+        for (WebElement groupElement: groupElements) {
+            groupWrappers.add(new GroupWrapper(groupElement));
+        }
+
+        return groupWrappers;
     }
 }
