@@ -2,6 +2,7 @@ package tests;
 
 import core.*;
 import model.TestBot;
+import org.junit.Assert;
 import org.junit.Test;
 import utility.TestUtilities;
 
@@ -26,18 +27,20 @@ public class TestCase12 extends TestBase {
         new OKMainPage(driver).doLogin(botFrom);
         new UserMainPage(driver).goToDestinationUser(botTo.getId());
         new DestinationUserPage(driver, botTo).clickWriteMsg();
-        new DialogsPage(driver, botTo, true)
-                .typeSendCheckMsgs(msgs)
-                .clickBtnExit()
-                .ckeckAppearanceLayerExit()
-                .clickBtnConfirmExit();
+        DialogsPage dialogsPage = new DialogsPage(driver, botTo, true)
+                .typeAndSendMsgs(msgs);
+        Assert.assertTrue("переданные и принятые сообщения не совпадают", true);
+        dialogsPage.clickBtnExit();
+        Assert.assertTrue("Не дождались появления лейера с подтверждением выхода", dialogsPage.isExitLayerVisible());
+        dialogsPage.clickBtnConfirmExit();
 
         //смотрим что сообщения дошли в нужном порядке
         new OKMainPage(driver).doLogin(botTo);
         new UserMainPage(driver).goToDialogs();
-        new DialogsPage(driver, botFrom, false)
-                .selectDialog(botFrom)
-                .checkWrightOrderReceiveMsgs(msgs)
+        DialogsPage dialogsPage2 = new DialogsPage(driver, botFrom, false)
+                .selectDialog(botFrom);
+        Assert.assertTrue("переданные и принятые сообщения не совпадают", dialogsPage.isMsgsReceived(msgs));
+        dialogsPage2
                 .clickBtnExit()
                 .ckeckAppearanceLayerExit()
                 .clickBtnConfirmExit();

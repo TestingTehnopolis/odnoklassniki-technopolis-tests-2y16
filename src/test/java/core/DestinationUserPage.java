@@ -21,18 +21,17 @@ public class DestinationUserPage extends PageBase {
 
     public DestinationUserPage(WebDriver driver, TestBot destinationUser) {
         super(driver);
-        USER_PAGE_TITLE = By.xpath(".//h1[contains(@class,'mctc_name_tx bl') and contains(text(), '" +
-                destinationUser.getLogin().toLowerCase() +
-                "')]");
+//        USER_PAGE_TITLE = By.xpath(".//h1[contains(@class,'mctc_name_tx bl') and contains(text(), '" +
+//                destinationUser.getLogin().toLowerCase() +
+//                "')]");
 
-        customCheck();
+//        customCheck();
     }
 
-    public DestinationUserPage clickWriteMsg() {
+    public void clickWriteMsg() {
         Assert.assertTrue("Не дождались появления кнопки \"написать сообщение\"",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_WRITE_MSG), 10, 500));
         click(BTN_WRITE_MSG);
-        return this;
     }
 
 

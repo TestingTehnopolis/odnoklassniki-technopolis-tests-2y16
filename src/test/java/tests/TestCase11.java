@@ -2,6 +2,7 @@ package tests;
 
 import core.*;
 import model.TestBot;
+import org.junit.Assert;
 import org.junit.Test;
 import utility.TestUtilities;
 
@@ -23,25 +24,27 @@ public class TestCase11 extends TestBase {
                 .goToDestinationUser(botTo.getId());
         new DestinationUserPage(driver, botTo)
                 .clickWriteMsg();
-        new DialogsPage(driver, botTo, true)
+        DialogsPage dialogPage = new DialogsPage(driver, botTo, true)
                 .typeMsg(msg)
-                .sendMsg()
-                .checkCreatingMsg(msg)
-                .clickBtnExit()
-                .ckeckAppearanceLayerExit()
-                .clickBtnConfirmExit();
+                .sendMsg();
+        Assert.assertTrue("Не дождались появления отправленного сообщения в обасти для сообщений", dialogPage.isMsgCreated(msg));
+        dialogPage.clickBtnExit();
+        Assert.assertTrue("Не дождались появления лейера с подтверждением выхода", dialogPage.isExitLayerVisible());
+        dialogPage.clickBtnConfirmExit();
+        //todo вынести выход в отдельный класс, возвращ-ые знач-я
     }
 
     @Test
     public void testSuccessfulMsgReceiving() {
+        //todo в отдельный класс и before для первого тестового метода
         new OKMainPage(driver).doLogin(botTo);
         new UserMainPage(driver)
                 .goToDialogs();
-        new DialogsPage(driver, botFrom, false)
-                .selectDialog(botFrom)
-                .checkReceiveMsg(msg)
-                .clickBtnExit()
-                .ckeckAppearanceLayerExit()
-                .clickBtnConfirmExit();
+        DialogsPage dialogPage = new DialogsPage(driver, botFrom, false)
+                .selectDialog(botFrom);
+        Assert.assertTrue("Не дождались появления приниятого сообщения в обасти для сообщений", dialogPage.isMsgCreated(msg));
+        dialogPage.clickBtnExit();
+                Assert.assertTrue("", dialogPage.isExitLayerVisible());
+        dialogPage.clickBtnConfirmExit();
     }
 }

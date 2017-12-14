@@ -33,8 +33,9 @@ public class DialogsPage extends PageBase {
         HREF_DIALOG = By.xpath(".//a[contains(@class, 'chats_i_ovr') and contains(@href, '" +
                 botInteractWith.getId() +
                 "')]");
+
         Assert.assertTrue("Не дождались появления адресата в списке диалогов",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(HREF_DIALOG), 10, 500));
+                isElementVisible(HREF_DIALOG));
 
         if(fromOtherUserPage)
             customCheck();
@@ -59,6 +60,11 @@ public class DialogsPage extends PageBase {
         Assert.assertTrue("Не дождались появления отправленного сообщения в обасти для сообщений",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(MSG), 10, 500));
         return this;
+    }
+
+    public boolean isMsgCreated(String msg) {
+        By MSG = By.xpath(".//div[contains(@class, 'msg_tx')]//span[text()='" + msg + "']");
+        return isElementVisible(MSG);
     }
 
     public DialogsPage clickBtnExit() {
@@ -96,24 +102,52 @@ public class DialogsPage extends PageBase {
         return this;
     }
 
-    public DialogsPage checkReceiveMsg(String msg) {
-        By MSG = By.xpath(".//div[contains(@class, 'msg_tx')]//span[text()='" + msg + "']");
-        Assert.assertTrue("Не дождались появления приниятого сообщения в обасти для сообщений",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(MSG), 10, 500));
+    public DialogsPage typeAndSendMsgs(List<String> msgs) {
+        for (int i = 0; i < msgs.size(); i++) {
+            typeMsg(msgs.get(i));
+            sendMsg();
+        }
         return this;
     }
 
-    public DialogsPage checkWrightOrderReceiveMsgs(List<String> sentMsgs) {
+//    public DialogsPage checkReceiveMsg(String msg) {
+//
+//        Assert.assertTrue("Не дождались появления приниятого сообщения в обасти для сообщений",
+//                explicitWait(ExpectedConditions.visibilityOfElementLocated(MSG), 10, 500));
+//        return this;
+//    }
+
+    public boolean isMsgVisible(String msg) {
+        By MSG = By.xpath(".//div[contains(@class, 'msg_tx')]//span[text()='" + msg + "']");
+        return isElementVisible(MSG);
+    }
+
+    public boolean isMsgsSent(List<String> sentMsgs) {
+
+        return true;
+    }
+
+    //todo вынести метод в логику теста
+    public boolean isMsgsReceived(List<String> sentMsgs) {
         Transformer tf = new Transformer(driver);
         List<MsgWrapper> list = tf.getMsgs((byte) sentMsgs.size());
 
+        System.out.println("list: " + list.get(0).getMsgText() + " " +
+                list.get(1).getMsgText() + " " +
+                list.get(0).getMsgText() + " " + "\n");
+
+        System.out.println("sentMsgs: " + sentMsgs + "\n");
+
         for (int i = 0; i < sentMsgs.size(); i++) {
-            Assert.assertTrue("переданные и принятые сообщения не совпадают",
-                    list.get(i).getMsgText().equals(sentMsgs.get(sentMsgs.size()-1-i)));
-//            System.out.println(i+1 + ") " + list.get(i).getMsgText());
-//            System.out.println(i+1 + ") " + sentMsgs.get(sentMsgs.size()-1-i));
+//            Assert.assertTrue("переданные и принятые сообщения не совпадают",
+//                    list.get(i).getMsgText().equals(sentMsgs.get(sentMsgs.size()-1-i)));
+            System.out.println(i+1 + ") " + list.get(i).getMsgText());
+            System.out.println(i+1 + ") " + sentMsgs.get(sentMsgs.size()-1-i));
+            if(! list.get(i).getMsgText().equals(sentMsgs.get(sentMsgs.size()-1-i))) {
+                return false;
+            }
         }
-        return this;
+        return true;
     }
 
     @Override
@@ -126,4 +160,10 @@ public class DialogsPage extends PageBase {
         Assert.assertTrue("Не дождались активации диалога",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_DIALOG_TITLE), 10, 500));
     }
+
+    public boolean isExitLayerVisible() {
+        return isElementVisible(LAYER_EXIT);
+    }
+
+
 }

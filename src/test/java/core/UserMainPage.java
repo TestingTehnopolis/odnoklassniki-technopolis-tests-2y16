@@ -13,7 +13,7 @@ public class UserMainPage extends PageBase {
 
     //базовые элементы страницы
     private static final By PERSONAL_BLOCK = By.xpath(".//div[@id='hook_Block_LeftColumnTopCard']");
-    private static final By LBL_THOUGHTS = By.xpath(".//div[contains(@class, 'input_placeholder') and contains(text(), 'О чём вы думаете?')]");
+    private static final By NOTE_AREA = By.xpath(".//div[text() = 'Напишите заметку']");
 
     private static final By ICON_MSG = By.id("msg_toolbar_button");
     private static final By LAYER_DIALOG_LIST = By.id("msg_dialogs_list_scroller");
@@ -25,9 +25,8 @@ public class UserMainPage extends PageBase {
         super(driver);
     }
 
-    public UserMainPage goToDestinationUser(String id) {
+    public void goToDestinationUser(String id) {
         driver.get("https://ok.ru/profile/" + id + "/");
-        return this;
     }
 
     public UserMainPage goToDialogs() {
@@ -62,6 +61,6 @@ public class UserMainPage extends PageBase {
         Assert.assertTrue("Не дождались появления блока с основными действиями пользователя",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(PERSONAL_BLOCK), 10, 500));
         Assert.assertTrue("Не дождались появления лейбла 'О чем вы думаете?'",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_THOUGHTS), 10, 500));
+                explicitWait(ExpectedConditions.visibilityOfElementLocated(NOTE_AREA), 10, 500));
     }
 }

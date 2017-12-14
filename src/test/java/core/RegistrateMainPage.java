@@ -38,8 +38,10 @@ public class RegistrateMainPage extends PageBase {
     }
 
     public RegistrateMainPage clickNext() {
-        Assert.assertTrue("Не дождались появления кнопки далее",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_NEXT), 10, 500));
+//        Assert.assertTrue("Не дождались появления кнопки далее",
+//                explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_NEXT), 10, 500));
+        Assert.assertTrue("Не дождались появления кнопки далее", isElementVisible(BTN_NEXT));
+
         click(BTN_NEXT);
         return this;
     }
@@ -61,6 +63,15 @@ public class RegistrateMainPage extends PageBase {
         Assert.assertTrue("Не дождались появления предупреждения о некорректом номере телефона",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_NOT_FULL_PHONE_NUMBER), 10, 500));
         return this;
+    }
+
+    public boolean isWarningVisible() {
+        return isElementVisible(LBL_WRONG_NUMBER);
+    }
+
+
+    public boolean isWarningNotFullPhoneVisible() {
+        return isElementVisible(LBL_NOT_FULL_PHONE_NUMBER);
     }
 
     @Override

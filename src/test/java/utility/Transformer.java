@@ -18,6 +18,7 @@ public class Transformer {
         this.driver = driver;
     }
 
+    //todo вдруг эта тройка предет несколько раз. Слишком навороченная логика - нужно возвращать все сообщения.
     public List<MsgWrapper> getMsgs(byte nLast) {
         List<WebElement> elements = driver.findElements(MSG_TEXT);
         List<MsgWrapper> res = new ArrayList<MsgWrapper>(nLast);
