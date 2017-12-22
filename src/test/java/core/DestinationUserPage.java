@@ -18,23 +18,22 @@ public class DestinationUserPage extends PageBase {
     private static final By BTN_WRITE_MSG = By.id("action_menu_write_message_button_a");
 
 
-
     public DestinationUserPage(WebDriver driver, TestBot destinationUser) {
         super(driver);
-//        USER_PAGE_TITLE = By.xpath(".//h1[contains(@class,'mctc_name_tx bl') and contains(text(), '" +
-//                destinationUser.getLogin().toLowerCase() +
-//                "')]");
+        USER_PAGE_TITLE = By.xpath(".//h1[contains(@class,'mctc_name_tx bl') and contains(text(), '" +
+                destinationUser.getLogin().toLowerCase() +
+                "')]");
 
-//        customCheck();
+        customCheck();
     }
 
-    public void clickWriteMsg() {
-        Assert.assertTrue("Не дождались появления кнопки \"написать сообщение\"",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_WRITE_MSG), 10, 500));
+    public DestinationUserPage clickWriteMsg() {
+        Assert.assertTrue("Не появилась кнопка \"Написать сообщение\"",
+                isElementVisible(BTN_WRITE_MSG));
         click(BTN_WRITE_MSG);
+
+        return this;
     }
-
-
 
     @Override
     protected void check() {

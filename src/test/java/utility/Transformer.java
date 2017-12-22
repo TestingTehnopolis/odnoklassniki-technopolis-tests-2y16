@@ -18,12 +18,12 @@ public class Transformer {
         this.driver = driver;
     }
 
-    //todo вдруг эта тройка предет несколько раз. Слишком навороченная логика - нужно возвращать все сообщения.
-    public List<MsgWrapper> getMsgs(byte nLast) {
+    public List<MsgWrapper> getMsgs() {
         List<WebElement> elements = driver.findElements(MSG_TEXT);
-        List<MsgWrapper> res = new ArrayList<MsgWrapper>(nLast);
-        for (int i = 0; i < nLast; i++) {
-            res.add(new MsgWrapper(elements.get(elements.size()-1-i).getText()));
+        List<MsgWrapper> res = new ArrayList<MsgWrapper>();
+
+        for (int i = 0; i < elements.size(); i++) {
+            res.add(new MsgWrapper(elements.get(i).getText()));
         }
 
         return res;

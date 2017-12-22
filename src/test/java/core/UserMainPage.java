@@ -1,6 +1,5 @@
 package core;
 
-import model.TestBot;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,44 +15,59 @@ public class UserMainPage extends PageBase {
     private static final By NOTE_AREA = By.xpath(".//div[text() = 'Напишите заметку']");
 
     private static final By ICON_MSG = By.id("msg_toolbar_button");
-    private static final By LAYER_DIALOG_LIST = By.id("msg_dialogs_list_scroller");
-    private static final By BTN_EXIT = By.xpath(".//a[contains(text(), 'Выход')]");
-    private static final By LAYER_EXIT = By.xpath(".//div[contains(@class, 'modal-new_cnt')]//div[contains(text(), 'Выход с сайта')]");
+    private static final By ICON_LEAD_TO_EXIT_LAYER = By.xpath(".//div[contains(@class, 'toolbar_dropdown_w h-mod')]");
+    private static final By LAYER_EXIT = By.xpath(".//div[contains(@class, 'toolbar_accounts-user-info')]");
+    private static final By LAYER_CONFIRM_EXIT = By.xpath(".//div[text()='Выход с сайта']");
+    private static final By BTN_EXIT = By.xpath(".//a[text()='Выйти']");
     private static final By BTN_CONFIRM_EXIT = By.xpath(".//input[@id='hook_FormButton_logoff.confirm_not_decorate']");
 
     public UserMainPage(WebDriver driver) {
         super(driver);
     }
 
-    public void goToDestinationUser(String id) {
+    public UserMainPage goToDestinationUser(String id) {
         driver.get("https://ok.ru/profile/" + id + "/");
+        return this;
     }
 
     public UserMainPage goToDialogs() {
-        Assert.assertTrue("Не дождались появления иконки \"Сообщения\"",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(ICON_MSG), 10, 500));
+        Assert.assertTrue("Не появилась иконка \"Сообщения\"",
+                isElementVisible(ICON_MSG));
         click(ICON_MSG);
+
         return this;
     }
 
-    public UserMainPage clickBtnExit() {
-        Assert.assertTrue("Не дождались появления кнопки выхода из аккаунта",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_EXIT), 10, 500));
-        click(BTN_EXIT);
-        return this;
+    public boolean isExitLayerVisible() {
+        return explicitWait(ExpectedConditions.visibilityOfElementLocated(LAYER_EXIT), 10, 500);
     }
 
-    public UserMainPage ckeckAppearanceLayerExit() {
-        Assert.assertTrue("Не дождались появления лейера с подтверждением выхода",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LAYER_EXIT), 10, 500));
+    public UserMainPage openExitLayer() {
+        Assert.assertTrue("Не появилась иконка, открывающая лейер с кнопкой выхода",
+                isElementVisible(ICON_LEAD_TO_EXIT_LAYER));
+        click(ICON_LEAD_TO_EXIT_LAYER);
+
         return this;
     }
 
     public UserMainPage clickBtnConfirmExit() {
-        Assert.assertTrue("Не дождались появления кнопки для подтверждения выхода",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_CONFIRM_EXIT), 10, 500));
+        Assert.assertTrue("Не появилась кнопка для подтверждения выхода",
+                isElementVisible(BTN_CONFIRM_EXIT));
         click(BTN_CONFIRM_EXIT);
+
         return this;
+    }
+
+    public UserMainPage clickBtnExit() {
+        Assert.assertTrue("не появилась кнопка выхода из аккаунта",
+                isElementVisible(BTN_EXIT));
+        click(BTN_EXIT);
+
+        return this;
+    }
+
+    public boolean isConfirmExitLayerVisible() {
+        return explicitWait(ExpectedConditions.visibilityOfElementLocated(LAYER_CONFIRM_EXIT), 10, 500);
     }
 
     @Override

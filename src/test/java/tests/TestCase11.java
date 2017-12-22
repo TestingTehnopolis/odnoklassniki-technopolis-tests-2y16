@@ -4,6 +4,7 @@ import core.*;
 import model.TestBot;
 import org.junit.Assert;
 import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
 import utility.TestUtilities;
 
 /**
@@ -16,35 +17,60 @@ public class TestCase11 extends TestBase {
     private TestBot botTo = new TestBot("technopolisBot19", "technopolis16", "572241061743");;
     static private String msg = TestUtilities.generateMsg((byte) 5).toString();
 
+    @BeforeMethod
     @Test
     public void testSuccessfulMsgSending() {
         new OKMainPage(driver)
                 .doLogin(botFrom);
-        new UserMainPage(driver)
+
+        UserMainPage userMainPage = new UserMainPage(driver)
                 .goToDestinationUser(botTo.getId());
+
         new DestinationUserPage(driver, botTo)
                 .clickWriteMsg();
+
         DialogsPage dialogPage = new DialogsPage(driver, botTo, true)
                 .typeMsg(msg)
                 .sendMsg();
-        Assert.assertTrue("Не дождались появления отправленного сообщения в обасти для сообщений", dialogPage.isMsgCreated(msg));
-        dialogPage.clickBtnExit();
-        Assert.assertTrue("Не дождались появления лейера с подтверждением выхода", dialogPage.isExitLayerVisible());
-        dialogPage.clickBtnConfirmExit();
-        //todo вынести выход в отдельный класс, возвращ-ые знач-я
+        Assert.assertTrue("Не дождались появления отправленного сообщения в обасти для сообщений",
+                dialogPage.isMsgCreated(msg));
+
+        userMainPage.openExitLayer();
+        Assert.assertTrue("Не дождались появления лейера для выхода",
+                userMainPage.isExitLayerVisible());
+
+        userMainPage.clickBtnExit();
+        Assert.assertTrue("Не дождались появления лейера для подтверждения выхода",
+                userMainPage.isConfirmExitLayerVisible());
+
+        userMainPage.clickBtnConfirmExit();
+        //для проверки корректности выхода из аккаунта
+        new OKMainPage(driver);
     }
 
     @Test
     public void testSuccessfulMsgReceiving() {
-        //todo в отдельный класс и before для первого тестового метода
-        new OKMainPage(driver).doLogin(botTo);
-        new UserMainPage(driver)
+        new OKMainPage(driver)
+                .doLogin(botTo);
+
+        UserMainPage userMainPage = new UserMainPage(driver)
                 .goToDialogs();
+
         DialogsPage dialogPage = new DialogsPage(driver, botFrom, false)
                 .selectDialog(botFrom);
-        Assert.assertTrue("Не дождались появления приниятого сообщения в обасти для сообщений", dialogPage.isMsgCreated(msg));
-        dialogPage.clickBtnExit();
-                Assert.assertTrue("", dialogPage.isExitLayerVisible());
-        dialogPage.clickBtnConfirmExit();
+        Assert.assertTrue("Не дождались появления приниятого сообщения в обасти для сообщений",
+                dialogPage.isMsgCreated(msg));
+
+        userMainPage.openExitLayer();
+        Assert.assertTrue("Не дождались появления лейера для выхода",
+                userMainPage.isExitLayerVisible());
+
+        userMainPage.clickBtnExit();
+        Assert.assertTrue("Не дождались появления лейера для подтверждения выхода",
+                userMainPage.isConfirmExitLayerVisible());
+
+        userMainPage.clickBtnConfirmExit();
+        //для проверки корректности выхода из аккаунта
+        new OKMainPage(driver);
     }
 }

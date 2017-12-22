@@ -3,6 +3,7 @@ package core;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
@@ -13,10 +14,6 @@ public class RegistrateMainPage extends PageBase {
     //базовый элементы страницы
     private static final By PIC_LOGO = By.xpath(".//a[contains(@class, 'anonym_logo') and @href='/']");
 
-    /**
-     * tbd add locale
-     * ".//span[contains(@class, 'input-d') and contains(text(), 'Далее') and contains(text(), 'соглашаетесь')]")
-     */
     //базовый элементы страницы
     private static final By LBL_ACCEPT_REGLAMENT  = By.xpath(".//span[contains(@class, 'input-d')]");
     //базовый элементы страницы
@@ -38,40 +35,27 @@ public class RegistrateMainPage extends PageBase {
     }
 
     public RegistrateMainPage clickNext() {
-//        Assert.assertTrue("Не дождались появления кнопки далее",
-//                explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_NEXT), 10, 500));
-        Assert.assertTrue("Не дождались появления кнопки далее", isElementVisible(BTN_NEXT));
-
+        Assert.assertTrue("Не появилась кнопка \"Далее\"", isElementVisible(BTN_NEXT));
         click(BTN_NEXT);
-        return this;
-    }
 
-    public RegistrateMainPage checkWarningWrongNumberAppearence() {
-        Assert.assertTrue("Не дождались появления предупреждения о неправильном номере телефона",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_WRONG_NUMBER), 10, 500));
         return this;
     }
 
     public RegistrateMainPage typePartOfPhoneNumber(String phoneNumber, boolean clearAreaFirstly) {
-        Assert.assertTrue("Не дождались появления поля для ввода телефона",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(AREA_INPUT_PHONE_NUMBER), 10, 500));
+        Assert.assertTrue("Не появилось поля для ввода телефона",
+                isElementVisible(AREA_INPUT_PHONE_NUMBER));
         type(phoneNumber, AREA_INPUT_PHONE_NUMBER, clearAreaFirstly);
-        return this;
-    }
 
-    public RegistrateMainPage checkWarningNotFullPhoneNumber() {
-        Assert.assertTrue("Не дождались появления предупреждения о некорректом номере телефона",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_NOT_FULL_PHONE_NUMBER), 10, 500));
         return this;
     }
 
     public boolean isWarningVisible() {
-        return isElementVisible(LBL_WRONG_NUMBER);
+        return explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_WRONG_NUMBER), 10, 500);
     }
 
 
     public boolean isWarningNotFullPhoneVisible() {
-        return isElementVisible(LBL_NOT_FULL_PHONE_NUMBER);
+        return explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_NOT_FULL_PHONE_NUMBER), 10, 500);
     }
 
     @Override

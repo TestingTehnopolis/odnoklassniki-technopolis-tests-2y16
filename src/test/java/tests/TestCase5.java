@@ -17,11 +17,14 @@ public class TestCase5 extends TestBase {
 
     @Test
     public void testUserInputValidationRegistration() {
-        new OKMainPage(driver).doRegistrate();
+        new OKMainPage(driver)
+                .doRegistrate();
+
         RegistrateMainPage mainPage = new RegistrateMainPage(driver)
             .clickNext();
         Assert.assertTrue("Не дождались появления предупреждения о неправильном номере телефона",
                 mainPage.isWarningVisible());
+
         mainPage.typePartOfPhoneNumber("56764", false);
         Assert.assertTrue("Не дождались появления предупреждения о некорректом номере телефона",
                 mainPage.isWarningNotFullPhoneVisible());

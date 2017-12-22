@@ -15,12 +15,6 @@ public class OKMainPage extends PageBase {
     //базовые эемпенты страницы
     private static final By PIC_LOGO = By.xpath(".//a[contains(@class, 'anonym_logo') and @href='/']");
     //tbd ".//label[contains(@for, 'field_email') and contains(text(), 'Логин, адрес почты или телефон')]"
-    private static final By LBL_LOGIN = By.xpath(
-            ".//label[contains(@for, 'field_email')]");
-    //tbd ".//label[contains(@for, 'field_password') and contains(text(), 'Пароль')]"
-    private static final By LBL_PSWD = By.xpath(
-            ".//label[contains(@for, 'field_password')]");
-
 
     private static final By BTN_REGISTRATE = By.xpath(".//a[contains(@class, 'registration')]");
     private static final By LAYER_CHOOSE_LANGUAGE = By.xpath(".//div[contains(@class, 'modal-new_cnt')]");
@@ -28,22 +22,35 @@ public class OKMainPage extends PageBase {
             ".//a[contains(@class, 'h-mod')]//span[contains(@class, 'tico')]");
     private static final By HREF_RUS_LANGUAGE = By.xpath(
             ".//a[contains(@class, 'sel-lang_i o') and text()='Русский']");
+    private static final By BTN_CONFIRM_EXIT = By.xpath(".//input[@id='hook_FormButton_logoff.confirm_not_decorate']");
 
 
     public OKMainPage(WebDriver driver) {
         super(driver);
     }
 
-    public void doRegistrate() {
-        Assert.assertTrue("Не дождались появления кнопки регистрация",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(BTN_REGISTRATE), 10, 500));
+    public OKMainPage doRegistrate() {
+        Assert.assertTrue("Не появилась кнопка \"Регистрация\"",
+                isElementVisible(BTN_REGISTRATE));
         click(BTN_REGISTRATE);
+
+        return this;
     }
 
-    public void doLogin(TestBot testBot) {
+    public OKMainPage doLogin(TestBot testBot) {
+        Assert.assertTrue("Не появилось поле для ввода имени/электронной почты/... пользователя",
+                isElementVisible(By.id("field_email")));
         type(testBot.getLogin(), By.id("field_email"));
+
+        Assert.assertTrue("Не появилось поле для ввода пароля",
+                isElementVisible(By.id("field_password")));
         type(testBot.getPassword(), By.id("field_password"));
+
+        Assert.assertTrue("Не появилось кнопка для входа в аккаунт",
+                isElementVisible(By.xpath(".//*[contains(@data-l,'loginButton')]")));
         click(By.xpath(".//*[contains(@data-l,'loginButton')]"));
+
+        return this;
     }
 
     public OKMainPage checkLayerAppearance() {
@@ -70,10 +77,5 @@ public class OKMainPage extends PageBase {
     protected void check() {
         Assert.assertTrue("Не дождались появления логотипа",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(PIC_LOGO), 10, 500));
-        Assert.assertTrue("Не дождались появления лейбла приглашающего ввести логин/...",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_LOGIN), 10, 500));
-        Assert.assertTrue("Не дождались появления лейбла приглашающего ввести пароль",
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(LBL_PSWD), 10, 500));
-
     }
 }
