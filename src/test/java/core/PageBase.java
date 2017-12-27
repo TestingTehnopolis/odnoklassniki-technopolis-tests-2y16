@@ -4,19 +4,50 @@ import com.google.common.base.Preconditions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.concurrent.TimeUnit;
 
-public abstract class HelperBase {
+/**
+ * Класс предоставляет базовые методы для всех тесткейсов.
+ */
+public abstract class PageBase {
+
     protected WebDriver driver;
     private boolean acceptNextAlert = true;
 
-    public HelperBase(WebDriver driver) {
+    public PageBase(WebDriver driver) {
         this.driver = driver;
         check();
     }
 
+    public boolean explicitWait(final ExpectedCondition<?> condition, long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
+        Preconditions.checkNotNull(condition, "Condition must be not null");
+        Preconditions.checkArgument(TimeUnit.MINUTES.toSeconds(3) > maxCheckTimeInSeconds, "Max check time in seconds should be less than 3 minutes");
+        checkConditionTimeouts(maxCheckTimeInSeconds, millisecondsBetweenChecks);
+        try {
+            // сбрасываем ожидания в 0
+            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            // создаем эксплицитное ожидание
+            WebDriverWait explicitWait = new WebDriverWait(driver, maxCheckTimeInSeconds, millisecondsBetweenChecks);
+            // проверяем его
+            explicitWait.until(condition);
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            // при любом результате восстанавливаем значение имплицитного ожидания по умолчанию
+            if (driver != null) {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            } else {
+                throw new IllegalArgumentException("Driver shouldnt be null");
+            }        }
+    }
+
     protected abstract void check();
+
+    protected void type(String text, By locator, boolean clearBefore) {
+        if(clearBefore) driver.findElement(locator).clear();
+        driver.findElement(locator).sendKeys(text);
+    }
 
     protected void type(String text, By locator) {
         driver.findElement(locator).clear();
@@ -66,29 +97,6 @@ public abstract class HelperBase {
         } finally {
             acceptNextAlert = true;
         }
-    }
-
-    public boolean explicitWait(final ExpectedCondition<?> condition, long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
-        Preconditions.checkNotNull(condition, "Condition must be not null");
-        Preconditions.checkArgument(TimeUnit.MINUTES.toSeconds(3) > maxCheckTimeInSeconds, "Max check time in seconds should be less than 3 minutes");
-        checkConditionTimeouts(maxCheckTimeInSeconds, millisecondsBetweenChecks);
-        try {
-            // сбрасываем ожидания в 0
-            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-            // создаем эксплицитное ожидание
-            WebDriverWait explicitWait = new WebDriverWait(driver, maxCheckTimeInSeconds, millisecondsBetweenChecks);
-            // проверяем его
-            explicitWait.until(condition);
-            return true;
-        } catch (Exception e) {
-            return false;
-        } finally {
-            // при любом результате восстанавливаем значение имплицитного ожидания по умолчанию
-            if (driver != null) {
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            } else {
-                throw new IllegalArgumentException("Driver shouldnt be null");
-            }        }
     }
 
     /**
