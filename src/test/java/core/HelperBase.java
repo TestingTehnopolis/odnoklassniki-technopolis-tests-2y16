@@ -1,13 +1,27 @@
 package core;
 
 import com.google.common.base.Preconditions;
+import core.Layers.UCARDLayer;
+import core.Wrappers.CommentWrapper;
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public abstract class HelperBase {
+
+
+
+    protected static final By UCARD = By.xpath("//*[contains(@class, 'ucard-mini') and contains(@class, 'toolbar_ucard')]");
+
+    public static final int timeOutInSeconds = 10;
+    public static final int sleepInMilliSeconds = 500;
+
     protected WebDriver driver;
     private boolean acceptNextAlert = true;
 
@@ -53,6 +67,20 @@ public abstract class HelperBase {
         }
     }
 
+    protected WebElement getElement(By path) {
+        return driver.findElement(path);
+    }
+
+
+
+    public UCARDLayer openUCARD(){
+        Assert.assertTrue("Не найдена иконка пользователя", isElementVisible(UCARD));
+        click(UCARD);
+        return new UCARDLayer(driver);
+    }
+
+
+
     protected String closeAlertAndGetItsText() {
         try {
             Alert alert = driver.switchTo().alert();
@@ -66,6 +94,14 @@ public abstract class HelperBase {
         } finally {
             acceptNextAlert = true;
         }
+    }
+
+   protected void scrollWithOffset(By by, int x, int y) {
+        WebElement element = driver.findElement(by);
+        String code = "window.scroll(" + (element.getLocation().x + x) + ","
+                + (element.getLocation().y + y) + ");";
+
+        ((JavascriptExecutor) driver).executeScript(code, element, x, y);
     }
 
     public boolean explicitWait(final ExpectedCondition<?> condition, long maxCheckTimeInSeconds, long millisecondsBetweenChecks) {
