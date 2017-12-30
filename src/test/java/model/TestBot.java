@@ -1,12 +1,17 @@
 package model;
 
-public class TestBot {
-    private final String login;
-    private final String password;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
-    public TestBot(String login, String password) {
-        this.login = login;
-        this.password = password;
+public class TestBot {
+    private String login;
+    private String password;
+
+    public TestBot(String resourcesPath) throws IOException {
+        BufferedReader authConfig = new BufferedReader(new FileReader(resourcesPath));
+        this.login = authConfig.readLine();
+        this.password = authConfig.readLine();
     }
 
     public String getLogin() {
