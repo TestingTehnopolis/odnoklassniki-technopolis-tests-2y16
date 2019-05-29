@@ -7,11 +7,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-public abstract class HelperBase {
+public abstract class BasePage {
     protected WebDriver driver;
     private boolean acceptNextAlert = true;
 
-    public HelperBase(WebDriver driver) {
+    public BasePage(WebDriver driver) {
         this.driver = driver;
         check();
     }

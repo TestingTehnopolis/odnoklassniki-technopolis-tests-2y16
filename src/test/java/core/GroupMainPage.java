@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class GroupMainPage extends HelperBase{
+public class GroupMainPage extends BasePage {
 
     private static final By CREATE_NEW_GROUP = By.xpath(".//*[contains(@href,'st.layer.cmd=PopLayerCreateAltGroup')]");
 
@@ -16,7 +16,7 @@ public class GroupMainPage extends HelperBase{
     }
 
     protected void check() {
-        //пример использования метода isElementVisible из HelperBase
+        //пример использования метода isElementVisible из BasePage
         Assert.assertTrue( "Не дождались кнопки созданиия новой группы",
                 new WebDriverWait(driver, 10).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
@@ -24,7 +24,7 @@ public class GroupMainPage extends HelperBase{
             }
         }));
 
-        //пример использования класса ExpectedConditions в сочетании с методом explicitWait из HelperBase
+        //пример использования класса ExpectedConditions в сочетании с методом explicitWait из BasePage
         Assert.assertTrue("Не дождались кнопки созданиия новой группы",
                 explicitWait(ExpectedConditions.visibilityOfElementLocated(CREATE_NEW_GROUP), 10, 500));
     }
