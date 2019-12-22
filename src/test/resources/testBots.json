@@ -1,0 +1,28 @@
+{
+  "testBot1": {
+    "login": "technopolisBot22",
+    "password": "technopolis16",
+    "profileId": "576030598023",
+    "firstName": "technopolisbot22",
+    "secondName": "technopolisbot22"
+  },
+  "testBot2": {
+    "login": "technopolisBot38",
+    "password": "technopolis16",
+    "firstName": "technopolisBot38",
+    "secondName": "technopolisBot38"
+  },
+  "testBot3": {
+    "login": "technopolisBot46",
+    "password": "technopolis16",
+    "firstName": "technopolisBot46",
+    "secondName": "technopolisBot46"
+  },
+  "myPage": {
+    "login": "+79121812839",
+    "password": "Im0Here0Bro",
+    "profileId": "572515012167",
+    "firstName": "Александр",
+    "secondName": "Юрковский"
+  }
+}
